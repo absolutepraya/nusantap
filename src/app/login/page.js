@@ -2,11 +2,8 @@
 'use client';
 import Link from 'next/link';
 import { IconArrowLeft } from "@tabler/icons-react";
-import { useState } from 'react';
 
 export default function Login() {
-    const [isPhoneHovered, setIsPhoneHovered] = useState(false);
-
     return (
         <div className="!w-screen !h-screen flex items-center justify-center bg-gray-100 ">
             <div className="bg-white !h-full !aspect-[9/19.5] flex flex-col items-center relative px-4 py-8 justify-between shadow-2xl">
