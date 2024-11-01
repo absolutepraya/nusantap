@@ -61,9 +61,10 @@ export default function Login() {
                             <input type='checkbox' id='notification' />
                             <label htmlFor='notification' className='text-xs'>Anda setuju untuk menerima informasi dan notifikasi yang dikirmkan oleh Kementerian Kesehatan Republik Indonesia <br />(Opsional)</label>
                         </div>
-                        <div>
-                            <button className='bg-blue-500 text-white rounded-lg h-12 w-full'>Lanjutkan</button>
+                        <div className='w-full flex justify-center'>
+                            <p className='text-xs'>Sudah punya akun SATUSEHAT Mobile? <a className='text-[#5699fd]' href='/login/'>Masuk</a></p>
                         </div>
+                        <a className='bg-[#5699fd] text-white flex items-center justify-center rounded-lg h-12 w-full' href='/login/'>Daftar</a>
                     </div>
                 </div>
 
