@@ -2,10 +2,13 @@
 'use client';
 import Link from 'next/link';
 import { IconArrowLeft } from "@tabler/icons-react";
+import { useViewportHeight } from '@/hooks/useViewportHeight';
 
 export default function Login() {
+    const isTall = useViewportHeight(888);
+
     return (
-        <div className="bg-white h-full w-full flex flex-col items-center relative px-4 py-8 justify-between shadow-2xl">
+        <div className={`bg-white h-full w-full flex flex-col items-center relative px-4 py-8 justify-between shadow-2xl ${isTall ? "rounded-3xl" : ""} overflow-hidden`}>
             <img src='/elements/topleft.svg' alt='Top Left Decorator' width='100%' height='100%' className='absolute -top-8 -left-8 z-0' />
             <div className="flex flex-col space-y-6 w-full items-center z-10">
                 <div className="flex w-full justify-start">

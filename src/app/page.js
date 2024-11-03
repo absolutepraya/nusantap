@@ -1,10 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
+'use client';
 import Image from "next/image";
 import { IconQuestionMark } from "@tabler/icons-react";
+import { useViewportHeight } from '@/hooks/useViewportHeight';
 
 export default function Home() {
+	const isTall = useViewportHeight(888);
+
 	return (
-		<div className="bg-white h-full w-full flex flex-col items-center relative px-4 py-8 justify-between shadow-2xl">
+		<div className={`bg-white h-full w-full flex flex-col items-center relative px-4 py-8 justify-between shadow-2xl ${isTall ? "rounded-3xl" : ""} overflow-hidden`}>
 			<img src='/elements/topleft.svg' alt='Top Left Decorator' width='100%' height='100%' className='absolute -top-8 -left-8 z-0' />
 			<div className="flex flex-row w-full space-x-3 justify-end z-10">
 				<div className="border rounded-full border-[#d3d4d3] px-6 h-[38px] flex items-center justify-center bg-white">

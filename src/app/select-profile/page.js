@@ -4,12 +4,14 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { IconArrowLeft, IconPlus, IconMessageQuestion, IconUserFilled } from "@tabler/icons-react";
 import ScrollableFeed from 'react-scrollable-feed'
+import { useViewportHeight } from '@/hooks/useViewportHeight';
 
 export default function Select() {
     const count = 0; // Count the number of profiles, TODO
+    const isTall = useViewportHeight(888);
 
     return (
-        <ScrollableFeed className="bg-white h-full w-full flex flex-col items-center relative px-4 py-8 justify-between shadow-2xl">
+        <ScrollableFeed className={`bg-white h-full w-full flex flex-col items-center relative px-4 py-8 justify-between shadow-2xl ${isTall ? "rounded-3xl" : ""} overflow-hidden`}>
             <div className="flex flex-col space-y-6 w-full items-center z-10">
                 <div className="flex w-full justify-start">
                     <Link href='/features'>
