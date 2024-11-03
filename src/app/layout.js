@@ -12,6 +12,9 @@ import './globals.css';
 export const metadata = {
   title: 'NuSantap',
   description: 'NuSantap - GovAI Hackathon',
+  icons: {
+    icon: '/logo.svg'
+  }
 };
 
 export default function RootLayout({ children }) {
