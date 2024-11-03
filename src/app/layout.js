@@ -13,13 +13,6 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        <link
-          rel="preload"
-          href="/src/app/fonts/PlusJakartaSans-VariableFont_wght.ttf"
-          as="font"
-          type="font/ttf"
-          crossOrigin="anonymous"
-        />
         <link rel='preload' href='/elements/topleft.svg' as='image' type="image/svg+xml" />
       </head>
       <body className="font-light antialiased">
