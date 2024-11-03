@@ -147,7 +147,10 @@ export default function Create() {
                         </div>
                         <div className='flex flex-col space-y-2'>
                             <p>Jenis Kelamin *</p>
-                            <select id='jenisKelamin' className='border border-gray-300 bg-white rounded-lg h-12 w-full px-4'
+                            <select 
+                                id='jenisKelamin' 
+                                className='border border-gray-300 bg-white rounded-lg h-12 w-full px-4'
+                                value={profileState.jenisKelamin}
                                 onChange={(e) => setProfileState({ ...profileState, jenisKelamin: e.target.value })}
                             >
                                 <option value="" disabled>Pilih Jenis Kelamin</option>
