@@ -1,9 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 import Link from 'next/link';
-import Image from 'next/image';
 import { IconArrowLeft } from "@tabler/icons-react";
-import ScrollableFeed from 'react-scrollable-feed'
 import { useState } from 'react';
 import locationData from './data-prov-kab.json';
 import { useViewportHeight } from '@/hooks/useViewportHeight';

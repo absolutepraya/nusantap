@@ -19,7 +19,7 @@ export default function Select() {
                 if (scrollableElement) {
                     scrollableElement.scrollTo({
                         top: 0,
-                        behavior: 'instant'
+                        behavior: 'smooth'
                     });
                 }
             }

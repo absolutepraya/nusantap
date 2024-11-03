@@ -17,7 +17,7 @@ export default function Login() {
                 if (scrollableElement) {
                     scrollableElement.scrollTo({
                         top: 0,
-                        behavior: 'instant'
+                        behavior: 'smooth'
                     });
                 }
             }

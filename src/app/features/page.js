@@ -16,7 +16,7 @@ export default function Features() {
 				if (scrollableElement) {
 					scrollableElement.scrollTo({
 						top: 0,
-						behavior: 'instant'
+						behavior: 'smooth'
 					});
 				}
 			}
