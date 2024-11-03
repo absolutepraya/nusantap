@@ -13,7 +13,7 @@ export default function Create() {
     const isTall = useViewportHeight(888);
 
     return (
-        <ScrollableFeed className={`bg-white h-full w-full flex flex-col items-center relative px-4 py-8 justify-between shadow-2xl ${isTall ? "rounded-3xl" : ""} overflow-hidden`}>
+        <div className={`bg-white h-full w-full flex flex-col items-center relative px-4 py-8 justify-between shadow-2xl ${isTall ? "rounded-3xl" : ""} overflow-hidden`}>
             <div className="flex flex-col justify-between h-full w-full items-center z-10">
                 <div className='w-full flex flex-col space-y-6'>
                     <div className="flex w-full justify-start">
@@ -22,10 +22,7 @@ export default function Create() {
                         </Link>
                     </div>
 
-                    <div className='w-full justify-start'>
-                        <p className="font-semibold text-lg w-full">Buat Profil Anak Anda</p>
-                        <p className='text-sm'>Agar kebutuhan nutrisi anak Anda bisa dianalisis oleh NuSantap, silahkan lengkapi data di bawah ini.</p>
-                    </div>
+                    <p className="font-semibold text-lg w-full">Buat Profil Anak Anda</p>
 
                     <div className="flex flex-col space-y-4 w-full text-sm">
                         <div className='flex flex-col space-y-2'>
@@ -90,6 +87,6 @@ export default function Create() {
                 </div>
                 <div className='bg-[#5699fd] text-white flex items-center justify-center rounded-lg h-12 w-full'>Buat Profil</div>
             </div>
-        </ScrollableFeed>
+        </div>
     );
 }
