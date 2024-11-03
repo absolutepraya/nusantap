@@ -5,12 +5,13 @@ import Image from 'next/image';
 import { IconArrowLeft, IconPlus, IconMessageQuestion, IconUserFilled } from "@tabler/icons-react";
 import ScrollableFeed from 'react-scrollable-feed'
 import { useViewportHeight } from '@/hooks/useViewportHeight';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export default function Select() {
     const count = 0; // Count the number of profiles, TODO
     const isTall = useViewportHeight(888);
     const containerRef = useRef(null); // Ref for outer container
+    const [profiles, setProfiles] = useState([]);
 
     useEffect(() => {
         setTimeout(() => {
@@ -24,7 +25,26 @@ export default function Select() {
                 }
             }
         }, 100);
+
+        // Get profiles from localStorage
+        const profiles = JSON.parse(localStorage.getItem('profiles')) || [];
+        setProfiles(profiles);
     }, []);
+
+    const calculateAge = (birthDate) => {
+        const birth = new Date(birthDate);
+        const today = new Date();
+
+        let age = today.getFullYear() - birth.getFullYear();
+
+        // Adjust age if birthday hasn't occurred this year
+        const monthDiff = today.getMonth() - birth.getMonth();
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+            age--;
+        }
+
+        return age;
+    }
 
     return (
         <div ref={containerRef} className="h-full w-full">
@@ -43,15 +63,17 @@ export default function Select() {
                     </div>
 
                     <div className='grid grid-cols-2 gap-4 w-full'>
-                        <a className="w-full aspect-square border-2 shadow-lg rounded-xl flex flex-col items-center justify-center space-y-5" href='/scan?profile=0'>
-                            <div className='bg-[#4ae6b7] w-20 h-20 rounded-full flex items-center justify-center text-white'>
-                                <IconUserFilled size={36} strokeWidth={2} />
-                            </div>
-                            <div className='flex flex-col space-y-1 text-center'>
-                                <p className='text-sm font-semibold'>Oscar Ryanda Putra</p>
-                                <p className='text-gray-400 text-xs'>21 tahun</p>
-                            </div>
-                        </a>
+                        {profiles.map((profile, index) => (
+                            <a key={index} className="w-full aspect-square border-2 shadow-lg rounded-xl flex flex-col items-center justify-center space-y-5" href={`/scan?profile=${index}`}>
+                                <div className='bg-[#4ae6b7] w-20 h-20 rounded-full flex items-center justify-center text-white'>
+                                    <IconUserFilled size={36} strokeWidth={2} />
+                                </div>
+                                <div className='flex flex-col space-y-1 text-center'>
+                                    <p className='text-sm font-semibold'>{profile.nama}</p>
+                                    <p className='text-gray-400 text-xs'>{calculateAge(profile.tanggalLahir)} tahun</p>
+                                </div>
+                            </a>
+                        ))}
                         <a className={`${count >= 5 ? 'hidden' : ''} w-full aspect-square border-2 border-custblue border-dashed rounded-xl flex flex-col items-center justify-center space-y-5 text-custblue`} href='/create-profile'>
                             <div className='bg-custlightblue w-20 h-20 rounded-full flex items-center justify-center'>
                                 <IconPlus size={32} strokeWidth={2} />

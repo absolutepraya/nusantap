@@ -22,6 +22,12 @@ export default function Create() {
     const [is5Profiles, setIs5Profiles] = useState(false);
 
     const handleSubmit = () => {
+        // Check if all fields are filled
+        if (!profileState.nama || !profileState.tanggalLahir || !profileState.tempatTinggal.provinsi || !profileState.tempatTinggal.kota || !profileState.nik || !profileState.jenisKelamin) {
+            alert('Mohon isi semua kolom yang tersedia!');
+            return;
+        }
+
         // 1. Get "profiles" from localStorage
         const profiles = JSON.parse(localStorage.getItem('profiles')) || [];
 
@@ -36,6 +42,9 @@ export default function Create() {
 
         // 3. Save "profiles" to localStorage
         localStorage.setItem('profiles', JSON.stringify(profiles));
+
+        // 4. Redirect to /select-profile
+        window.location.href = '/select-profile';
     }
 
     // Check if there are already 5 profile from profiles in localStorage
@@ -118,13 +127,15 @@ export default function Create() {
                                         ))}
                                     </select>
                                 ) : (
-                                    <select
-                                        id='kota'
-                                        className='text-gray-400 border border-gray-300 rounded-lg h-12 w-full px-4 bg-gray-100'
-                                        disabled
-                                    >
-                                        <option value="" disabled selected>Pilih Kota</option>
-                                    </select>
+                                    <div className='w-full relative'>
+                                        <div className='absolute w-full h-12 cursor-not-allowed' />
+                                        <select
+                                            id='kota'
+                                            className='text-gray-400 border border-gray-300 rounded-lg h-12 w-full px-4 bg-gray-100'
+                                        >
+                                            <option value="">Pilih Kota</option>
+                                        </select>
+                                    </div>
                                 )}
                             </div>
                         </div>
@@ -139,6 +150,7 @@ export default function Create() {
                             <select id='jenisKelamin' className='border border-gray-300 bg-white rounded-lg h-12 w-full px-4'
                                 onChange={(e) => setProfileState({ ...profileState, jenisKelamin: e.target.value })}
                             >
+                                <option value="" disabled>Pilih Jenis Kelamin</option>
                                 <option value='L'>Laki-laki</option>
                                 <option value='P'>Perempuan</option>
                             </select>
