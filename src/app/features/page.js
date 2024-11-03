@@ -2,16 +2,21 @@
 'use client';
 import { IconSearch, IconHome, IconSquares, IconNews, IconUser, IconSquaresFilled } from "@tabler/icons-react";
 import ScrollableFeed from 'react-scrollable-feed'
+import React, { useState, useEffect } from 'react';
 
 export default function Features() {
+	// Help define wether navbar is at the bottom or not
+	const isTall = useViewportHeight(888);
+	const navbarClasses = `fixed w-full max-w-[450px] h-20 bg-white ${isTall ? 'bottom-1/2 translate-y-[444px]' : 'bottom-0'} z-30 flex flex-row justify-between px-2 text-gray-300 items-center`;
+
 	return (
 		<ScrollableFeed className="bg-[#fff8ff] w-full h-full flex flex-col items-center relative px-4 py-8 justify-between shadow-2xl pb-32">
-			<div className="fixed w-full max-w-[450px] h-20 bg-white bottom-0 z-30 flex flex-row justify-between px-2 text-gray-300 items-center">
+			<div className={navbarClasses}>
 				<div className="flex flex-col items-center w-1/4 cursor-not-allowed">
 					<IconHome size={22} strokeWidth={1} />
 					<p>Beranda</p>
 				</div>
-				<div className="flex flex-col items-center w-1/4 text-[#5699fd] cursor-pointer">
+				<div className="flex flex-col items-center cursor-pointer w-1/4 text-[#5699fd] ">
 					<IconSquaresFilled size={22} strokeWidth={1} />
 					<p className="font-semibold">Fitur</p>
 				</div>
@@ -25,7 +30,7 @@ export default function Features() {
 				</div>
 			</div>
 			<div className="flex flex-col space-y-5 w-full z-10">
-				<p className='text-lg font-semibold'>Fitur</p>
+				<p className='text-2xl font-semibold'>Fitur</p>
 				<div className='relative'>
 					<IconSearch size={20} className="absolute bottom-1/2 translate-y-1/2 left-3 text-gray-400" />
 					<input type="text" className="w-full border border-gray-300 rounded-lg py-2 pl-10 pr-2" placeholder="Cari fitur" />
@@ -167,4 +172,25 @@ export default function Features() {
 			</div>
 		</ScrollableFeed>
 	);
+}
+
+function useViewportHeight(threshold = 888) {
+	const [isTall, setIsTall] = useState(false);
+
+	useEffect(() => {
+		const checkHeight = () => {
+			setIsTall(window.innerHeight > threshold);
+		};
+
+		// Initial check
+		checkHeight();
+
+		// Add event listener
+		window.addEventListener('resize', checkHeight);
+
+		// Cleanup event listener on unmount
+		return () => window.removeEventListener('resize', checkHeight);
+	}, [threshold]);
+
+	return isTall;
 }
