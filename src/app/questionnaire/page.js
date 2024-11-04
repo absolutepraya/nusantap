@@ -1,21 +1,22 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
-
 import { IconArrowLeft, IconBoltOff, IconBrandHipchat, IconMessage, IconQuestionMark } from '@tabler/icons-react';
 import kuisionerLogo from '../../../public/images/kuesioner.png';
 import nusantapLogo from '@/../public/images/nusantap-logo.png';
 import Link from 'next/link';
+import { useViewportHeight } from '@/hooks/useViewportHeight';
 
 export default function Scan() {
+	const isTall = useViewportHeight(888);
+
 	return (
 		<>
 			{/* Gradient */}
-			<div className="-z-1 absolute -left-[40%] -top-10 h-64 w-full -rotate-45 bg-gradient-to-b from-[#FF7518] from-5% via-[#ff741825] via-70% to-transparent to-100%"></div>
-			<div className="-z-2 absolute top-0 h-[60%] w-full bg-gradient-to-b from-[#0bb4acbc] from-25% via-[#0bb4ac57] via-70% to-transparent to-100%"></div>
-
-			<div className="sticky z-20 flex h-16 w-full flex-row items-center justify-between px-4">
+			{/* <div className="-z-1 absolute -left-[40%] -top-10 h-64 w-full -rotate-45 bg-gradient-to-b from-[#FF7518] from-5% via-[#ff741825] via-70% to-transparent to-100%"></div> */}
+			<div className={`${isTall ? "rounded-t-3xl" : ""} -z-2 absolute top-0 h-[60%] w-full bg-gradient-to-b from-[#0bb4acbc] from-25% via-[#0bb4ac57] via-70% to-transparent to-100%`}></div>
+			<div className="sticky z-20 flex h-20 w-full flex-row items-center justify-between px-6">
 				<Link
-					href="/"
+					href="/select-profile"
 					className="rounded-full bg-[#D1DD25] p-2"
 				>
 					<IconArrowLeft
@@ -25,23 +26,23 @@ export default function Scan() {
 				</Link>
 
 				<div className="flex h-full w-auto items-center gap-4 text-sm">
-					<Link
-						href="/"
-						className="rounded-full bg-[#D1DD25] p-2"
+					<div
+						className="rounded-full bg-[#D1DD25] p-2 cursor-not-allowed"
 					>
 						<IconQuestionMark
 							size={24}
 							strokeWidth={3}
 						/>
-					</Link>
+					</div>
 				</div>
 			</div>
 
 			<div className="absolute top-16 h-auto w-full py-8">
-				<div className="flex h-20 w-full justify-between gap-4 px-8">
+				<div className="flex h-20 w-full justify-between gap-4 px-8 text-white">
 					<IconBrandHipchat
 						size={64}
-						strokeWidth={3}
+						strokeWidth={2}
+						className='mt-2'
 					/>
 					<div className="flex h-full w-full flex-col">
 						<p className="text-3xl font-bold text-white">Kuesioner</p>
@@ -58,17 +59,17 @@ export default function Scan() {
 				</div>
 			</div>
 
-			<div className="z-2 absolute bottom-0 flex h-auto w-full flex-col items-end gap-8 px-6 py-16">
+			<div className={`z-2 absolute bottom-0 flex h-auto w-full flex-col items-end gap-8 px-6 py-16 ${isTall ? "rounded-b-3xl" : ""}`}>
 				<div className="flex w-full flex-col items-start">
 					<img
 						src={nusantapLogo.src}
 						alt="Nusantap"
-						className="h-32 w-auto object-cover"
+						className="h-28 w-auto object-cover mb-3"
 					/>
 					<p className="text-xl font-bold">Apakah Anda sering merasa lelah atau lemah tanpa alasan yang jelas?</p>
 				</div>
 				<div className="flex w-full flex-col items-end gap-3">
-					<button className="h-8 w-40 rounded-full border-2 border-[#0BB4AC] text-center align-middle text-[#0BB4AC]">ya, sangat sering</button>
+					<button className="h-8 w-40 rounded-full border-2 border-[#0BB4AC] text-center align-middle text-[#0BB4AC]">Sangat sering</button>
 					<button className="h-8 w-40 rounded-full border-2 border-[#0BB4AC] text-center align-middle text-[#0BB4AC]">Kadang-kadang</button>
 					<button className="h-8 w-40 rounded-full border-2 border-[#0BB4AC] text-center align-middle text-[#0BB4AC]">Tidak Pernah</button>
 					<button className="flex h-8 w-48 items-center justify-center gap-2 rounded-full border-2 border-[#FF7518] text-center align-middle text-[#FF7518]">
