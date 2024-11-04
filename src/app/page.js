@@ -43,7 +43,7 @@ export default function Home() {
 					href="/login/"
 				>
 					<p className="text-white">Masuk</p>
-					<p className="absolute -top-4 text-[10px] text-black">Fitur login belum terimplementasi, silakan langsung tekan tombol "Masuk"</p>
+					<p className="absolute -top-4 text-[8px] text-black">Fitur login belum terimplementasi, silakan langsung tekan tombol "Masuk"</p>
 				</a>
 				<a
 					className="flex h-16 w-full items-center justify-center rounded-lg bg-[#e8f1fe]"

@@ -118,29 +118,30 @@ export default function Result() {
 							</div>
 						</div>
 
-                    <div className='w-full flex flex-col space-y-2'>
-                        <div className='h-[18rem] w-full bg-white rounded-xl shadow-xl flex flex-col space-y-2 overflow-hidden !mt-8 relative'>
-                            <div className={`w-full h-[80%] ${warna} relative rounded-b-xl overflow-hidden`}>
-                                <img
-                                    src={selectedMakanan.gambar}
-                                    alt={selectedMakanan.nama}
-                                    className='w-full h-full object-cover object-center'
-                                />
-                                {/* Gradient Overlay */}
-                                <div
-                                    className='absolute top-0 left-0 w-full h-full'
-                                    style={{
-                                        background: 'linear-gradient(to bottom, rgba(255, 117, 24, 0.8), rgba(255, 117, 24, 0))'
-                                    }}
-                                ></div>
-                            </div>
-                            <p className='absolute top-0 left-4 font-bold text-2xl text-white'>Menu {selectedMakanan.menu}: {selectedMakanan.fungsi}</p>
-                            <div className='flex flex-col w-full px-3 pb-3'>
-                                <p className='text-xl font-bold'>{selectedMakanan.nama}</p>
-                                <p className='text-xs'>{selectedMakanan.deskripsi}</p>
-                            </div>
-                        </div>
-
+						<div className="flex w-full flex-col space-y-2">
+							<div className="relative !mt-8 flex h-[18rem] w-full flex-col space-y-2 overflow-hidden rounded-xl bg-white shadow-xl">
+								<div className={`h-[80%] w-full ${warna} relative overflow-hidden rounded-b-xl`}>
+									<img
+										src={selectedMakanan.gambar}
+										alt={selectedMakanan.nama}
+										className="h-full w-full object-cover object-center"
+									/>
+									{/* Gradient Overlay */}
+									<div
+										className="absolute left-0 top-0 h-full w-full"
+										style={{
+											background: 'linear-gradient(to bottom, rgba(255, 117, 24, 0.8), rgba(255, 117, 24, 0))',
+										}}
+									></div>
+								</div>
+								<p className="absolute left-4 top-0 text-2xl font-bold text-white">
+									Menu {selectedMakanan.menu}: {selectedMakanan.fungsi}
+								</p>
+								<div className="flex w-full flex-col px-3 pb-3">
+									<p className="text-xl font-bold">{selectedMakanan.nama}</p>
+									<p className="text-xs">{selectedMakanan.deskripsi}</p>
+								</div>
+							</div>
 
 							<div className={`w-full ${warna} relative flex flex-col items-center justify-center space-y-1 overflow-hidden rounded-xl pb-[36px] pt-2 font-medium text-white shadow-xl`}>
 								<div className="absolute top-[50px] h-0.5 w-[93%] rounded-full bg-white" />
@@ -202,43 +203,62 @@ export default function Result() {
 								</div>
 							</div>
 
-                        <div className='w-full bg-white rounded-xl shadow-xl flex flex-col overflow-hidden relative'>
-                            <div className={`flex flex-row space-x-2 z-10 rounded-xl h-[5rem] ${showQR ? "shadow-xl" : ''}`}>
-                                <div className='h-full aspect-square bg-[#0bb4ac] rounded-xl flex items-center justify-center'>
-                                    <IconQrcode size={50} strokeWidth={2} className='text-white' />
-                                </div>
-                                <div className='flex flex-col justify-center h-full px-3 pb-[24px]'>
-                                    <p className='font-bold text'>QR Code</p>
-                                    <p className='text-xs !mb-1'>Klik untuk menampilkan verifikasi scan makanan.</p>
-                                </div>
-                            </div>
-                            <div className={`w-full h-[36rem] bg-white ${showQR ? "" : "hidden"} flex items-center justify-center relative`}>
-                                <p className='text-xl font-semibold absolute top-12 text-center'>Tunjukkan QR ini pada staff<br/>Makan Bergizi Gratis</p>
-                                <img
-                                    src='/qr/qrdummy.png'
-                                    alt='QR Code'
-                                    className='w-60 h-60 object-contain'
-                                />
-                                <div className='border rounded-xl border-gray-300 w-[80%] px-3 py-2 absolute bottom-12'>
-                                    <p className='text-xs'><span className='font-bold text-red-500'>Note: </span>Pastikan menu yang Anda terima sesuai dengan yang diberikan oleh aplikasi.</p>
-                                </div>
-                            </div>
-                            <div
-                                className='text-black absolute z-20 bottom-4 cursor-pointer right-1/2 translate-y-1/2 translate-x-1/2'
-                                onClick={() => {
-                                    setShowQR(!showQR)
-                                }}
-                            >
-                                {showQR ? (
-                                    <IconCaretUpFilled size={24} strokeWidth={2} className='animate-bounce' />
-                                ) : (
-                                    <IconCaretDownFilled size={24} strokeWidth={2} className='animate-bounce' />
-                                )}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </ScrollableFeed>
-        </div>
-    );
+							<div className="relative flex w-full flex-col overflow-hidden rounded-xl bg-white shadow-xl">
+								<div className={`z-10 flex h-[5rem] flex-row space-x-2 rounded-xl ${showQR ? 'shadow-xl' : ''}`}>
+									<div className="flex aspect-square h-full items-center justify-center rounded-xl bg-[#0bb4ac]">
+										<IconQrcode
+											size={50}
+											strokeWidth={2}
+											className="text-white"
+										/>
+									</div>
+									<div className="flex h-full flex-col justify-center px-3 pb-[24px]">
+										<p className="text font-bold">QR Code</p>
+										<p className="!mb-1 text-xs">Klik untuk menampilkan verifikasi scan makanan.</p>
+									</div>
+								</div>
+								<div className={`h-[36rem] w-full bg-white ${showQR ? '' : 'hidden'} relative flex items-center justify-center`}>
+									<p className="absolute top-12 text-center text-xl font-semibold">
+										Tunjukkan QR ini pada staff
+										<br />
+										Makan Bergizi Gratis
+									</p>
+									<img
+										src="/qr/qrdummy.png"
+										alt="QR Code"
+										className="h-60 w-60 object-contain"
+									/>
+									<div className="absolute bottom-12 w-[80%] rounded-xl border border-gray-300 px-3 py-2">
+										<p className="text-xs">
+											<span className="font-bold text-red-500">Note: </span>Pastikan menu yang Anda terima sesuai dengan yang diberikan oleh aplikasi.
+										</p>
+									</div>
+								</div>
+								<div
+									className="absolute bottom-4 right-1/2 z-20 translate-x-1/2 translate-y-1/2 cursor-pointer text-black"
+									onClick={() => {
+										setShowQR(!showQR);
+									}}
+								>
+									{showQR ? (
+										<IconCaretUpFilled
+											size={24}
+											strokeWidth={2}
+											className="animate-bounce"
+										/>
+									) : (
+										<IconCaretDownFilled
+											size={24}
+											strokeWidth={2}
+											className="animate-bounce"
+										/>
+									)}
+								</div>
+							</div>
+						</div>
+					</div>
+				</ScrollableFeed>
+			)}
+		</div>
+	);
 }

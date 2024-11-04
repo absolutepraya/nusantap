@@ -122,7 +122,7 @@ export default function Scan() {
 					ref={videoRef}
 					autoPlay
 					muted
-					className={`${isTall ? 'rounded-t-3xl' : ''} absolute left-0 top-0 z-0 h-[86%] w-full object-cover`}
+					className={`${isTall ? 'rounded-t-3xl' : ''} absolute left-0 top-0 z-0 h-[86%] w-full scale-x-[-1] transform object-cover`}
 					// md:scale-x-[-1]
 				></video>
 			) : (
@@ -178,7 +178,7 @@ export default function Scan() {
 			<div className={`absolute bottom-0 z-10 h-60 w-full bg-[#0BB4AC80] ${isTall ? 'rounded-b-3xl' : ''}`}>
 				<div className="relative h-full w-full">
 					<div className="flex h-auto w-full items-center justify-start px-4 py-4">
-						<div className="absolute left-0 top-0 h-1 w-1/5 bg-[#FF7518]">
+						<div className="absolute left-0 top-0 h-1 w-1/3 bg-[#FF7518]">
 							<div className="relative z-50 h-full w-full">
 								<div className="absolute -top-1 left-[95%] z-[100] h-4 w-4 rounded-full bg-[#FF7518]"></div>
 							</div>

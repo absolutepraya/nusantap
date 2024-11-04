@@ -111,7 +111,7 @@ const CustomInput = ({ isLoading, onSubmit }) => {
 	// Update width whenever input text changes
 	useEffect(() => {
 		if (hiddenText.current) {
-			const minWidth = 96;
+			const minWidth = 200;
 			const maxWidth = 350;
 			const padding = 60; // Account for padding and icon
 
@@ -289,9 +289,9 @@ export default function Scan() {
 				</div>
 
 				<div className="mt-8 h-1 w-full bg-gray-500/30">
-					<div className="absolute left-0 h-1 w-1/2 bg-[#FF7518]">
+					<div className="absolute left-0 h-1 w-2/3 bg-[#FF7518]">
 						<div className="relative h-full w-full">
-							<div className="absolute left-[95%] top-[-4px] h-4 w-4 rounded-full bg-[#FF7518]"></div>
+							<div className="absolute left-[95%] top-[-6px] h-4 w-4 rounded-full bg-[#FF7518]"></div>
 						</div>
 					</div>
 				</div>
