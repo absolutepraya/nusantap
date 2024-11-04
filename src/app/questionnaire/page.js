@@ -13,7 +13,7 @@ export default function Scan() {
 		<>
 			{/* Gradient */}
 			{/* <div className="-z-1 absolute -left-[40%] -top-10 h-64 w-full -rotate-45 bg-gradient-to-b from-[#FF7518] from-5% via-[#ff741825] via-70% to-transparent to-100%"></div> */}
-			<div className={`${isTall ? "rounded-t-3xl" : ""} -z-2 absolute top-0 h-[60%] w-full bg-gradient-to-b from-[#0bb4acbc] from-25% via-[#0bb4ac57] via-70% to-transparent to-100%`}></div>
+			<div className={`-z-2 absolute top-0 h-[60%] w-full bg-gradient-to-b from-[#0bb4acbc] from-25% via-[#0bb4ac57] via-70% to-transparent to-100%`}></div>
 			<div className="sticky z-20 flex h-20 w-full flex-row items-center justify-between px-6">
 				<Link
 					href="/select-profile"
