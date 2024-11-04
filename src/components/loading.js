@@ -96,32 +96,34 @@ export default function Loading({ text, isLoading }) {
     }, []);
 
     return (
-        <div className="h-[888px] w-[450px] bg-red-300 absolute z-50 top-0 left-0">
-            <img
-                src="/elements/loadingbg.svg"
-                alt="Loading Background"
-                className="w-full absolute h-auto object-cover"
-            />
-            <img
-                src='/elements/logo.svg'
-                alt='Logo'
-                className='w-32 h-32 absolute z-10 bottom-1/2 translate-y-1/2 right-1/2 translate-x-1/2'
-            />
-            <div className="w-[75%] h-1 bg-gray-400 absolute right-1/2 translate-x-1/2 bottom-[35%] rounded-full">
-                <div
-                    style={{ width: `${progress}%` }}
-                    className="h-1 bg-[#FF7518] rounded-full transition-width duration-100 relative"
-                >
-                    <div className="absolute right-0 bottom-1/2 translate-y-1/2 w-3 h-3 rounded-full bg-[#FF7518]" />
+        isLoading && (
+            <div className="h-[888px] w-[450px] bg-red-300 absolute z-50 top-0 left-0">
+                <img
+                    src="/elements/loadingbg.svg"
+                    alt="Loading Background"
+                    className="w-full absolute h-auto object-cover"
+                />
+                <img
+                    src='/elements/logo.svg'
+                    alt='Logo'
+                    className='w-32 h-32 absolute z-10 bottom-1/2 translate-y-1/2 right-1/2 translate-x-1/2'
+                />
+                <div className="w-[75%] h-1 bg-gray-400 absolute right-1/2 translate-x-1/2 bottom-[35%] rounded-full">
+                    <div
+                        style={{ width: `${progress}%` }}
+                        className="h-1 bg-[#FF7518] rounded-full transition-width duration-100 relative"
+                    >
+                        <div className="absolute right-0 bottom-1/2 translate-y-1/2 w-3 h-3 rounded-full bg-[#FF7518]" />
+                    </div>
+                </div>
+                <div className="absolute bottom-52 left-1/2 transform -translate-x-1/2 text-white font-bold justify-center">
+                    <p className="text-center">
+                        {Math.floor(progress)}%<br />
+                        {text}
+                        {'.'.repeat(dotCount)}
+                    </p>
                 </div>
             </div>
-            <div className="absolute bottom-52 left-1/2 transform -translate-x-1/2 text-white font-bold justify-center">
-                <p className="text-center">
-                    {Math.floor(progress)}%<br />
-                    {text}
-                    {'.'.repeat(dotCount)}
-                </p>
-            </div>
-        </div>
+        )
     );
 }
