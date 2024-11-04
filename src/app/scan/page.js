@@ -149,14 +149,14 @@ export default function Scan() {
 					autoPlay
 					muted
 					className={`${isTall ? 'rounded-t-3xl' : ''} absolute left-0 top-0 z-0 h-[86%] w-full object-cover`}
-					style={{ transform: 'scaleX(-1)' }}
+				// md:scale-x-[-1]
 				></video>
 			) : (
 				<img
 					src={screenshot}
 					alt="Screenshot"
 					className={`${isTall ? 'rounded-t-3xl' : ''} absolute left-0 top-0 z-0 h-[86%] w-full object-cover`}
-					style={{ transform: 'scaleX(-1)' }}
+				// md:scale-x-[-1]
 				/>
 			)}
 
