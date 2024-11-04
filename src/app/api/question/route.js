@@ -42,7 +42,6 @@ export async function POST(request) {
 		console.log('response', completion);
 
 		const response = JSON.parse(completion.choices[0].message.content);
-		// const response = completion.choices[0].message.content;
 
 		return NextResponse.json(response);
 	} catch (error) {

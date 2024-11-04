@@ -1,15 +1,18 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { IconArrowLeft, IconBodyScan, IconBoltOff, IconQuestionMark } from '@tabler/icons-react';
 import nusantapLogo from '@/../public/images/nusantap-logo.png';
 import guide from '@/../public/images/guide.png';
+import { ProfileContext } from '@/contexts/ProfileContext';
 
 export default function Scan() {
 	const videoRef = useRef(null);
 	const canvasRef = useRef(null);
 	const [screenshot, setScreenshot] = useState(null);
+	const [uploadedUrl, setUploadedUrl] = useState(null);
+	const { profileData, setProfileData } = useContext(ProfileContext);
 
 	useEffect(() => {
 		navigator.mediaDevices
@@ -24,7 +27,31 @@ export default function Scan() {
 			});
 	}, []);
 
-	const handleScreenshot = () => {
+	const handleUploadImage = async (url) => {
+		try {
+			console.log('Uploading image:', url);
+			const response = await fetch('/api/add-image', {
+				method: 'POST',
+				body: JSON.stringify({ image_url: url }),
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			});
+
+			if (response.ok) {
+				const data = await response.json();
+				console.log(data);
+				setProfileData({
+					...profileData,
+					vec: data.vec,
+				});
+			}
+		} catch (error) {
+			console.error('Error uploading image:', error);
+		}
+	};
+
+	const handleScreenshot = async () => {
 		const canvas = canvasRef.current;
 		const video = videoRef.current;
 
@@ -35,6 +62,50 @@ export default function Scan() {
 
 		const dataUrl = canvas.toDataURL('image/png');
 		setScreenshot(dataUrl);
+
+		// Convert dataURL to Blob
+		const blob = await (async () => {
+			const res = await fetch(dataUrl);
+			return res.blob();
+		})();
+
+		// Create a File object from the Blob
+		const file = new File([blob], 'screenshot.png', { type: 'image/png' });
+
+		try {
+			const uploadResult = await uploadToCloudinary(file);
+			if (uploadResult && uploadResult.secure_url) {
+				console.log(uploadResult);
+				setUploadedUrl(uploadResult.url);
+				console.log('Image uploaded successfully:', uploadResult.url);
+				setProfileData({
+					...profileData,
+					image_url: uploadResult.url,
+				});
+
+				handleUploadImage(uploadResult.url);
+			}
+		} catch (error) {
+			console.error('Error uploading to Cloudinary:', error);
+		}
+	};
+
+	const uploadToCloudinary = async (file) => {
+		try {
+			const formData = new FormData();
+			formData.append('file', file);
+			formData.append('upload_preset', 'nusantap');
+
+			const response = await fetch('https://api.cloudinary.com/v1_1/djvdforcq/image/upload', {
+				method: 'POST',
+				body: formData,
+			});
+
+			return await response.json();
+		} catch (error) {
+			console.error('Error uploading to Cloudinary:', error);
+			throw error;
+		}
 	};
 
 	return (
@@ -122,6 +193,7 @@ export default function Scan() {
 						<div className="ml-4 flex w-auto flex-col text-white">
 							<p className="text-2xl font-bold">Scanning</p>
 							<p className="text-xs">Pastikan Wajah, Tangan, Kuku, Rambut, dan Mata Anda terlihat dengan jelas</p>
+							{uploadedUrl && <p className="mt-2 text-xs">Image uploaded: {uploadedUrl}</p>}
 						</div>
 					</div>
 
