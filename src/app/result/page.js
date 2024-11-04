@@ -71,15 +71,28 @@ export default function Result() {
                     </div>
 
                     <div className='w-full flex flex-col space-y-2'>
-                        <div className='h-[18rem] w-full bg-white rounded-xl shadow-xl flex flex-col space-y-2 overflow-hidden !mt-8'>
-                            <div className={`w-full h-[70%] ${warna} rounded-b-xl`}>
-
+                        <div className='h-[18rem] w-full bg-white rounded-xl shadow-xl flex flex-col space-y-2 overflow-hidden !mt-8 relative'>
+                            <div className={`w-full h-[80%] ${warna} relative rounded-b-xl overflow-hidden`}>
+                                <img
+                                    src={selectedMakanan.gambar}
+                                    alt={selectedMakanan.nama}
+                                    className='w-full h-full object-cover object-center'
+                                />
+                                {/* Gradient Overlay */}
+                                <div
+                                    className='absolute top-0 left-0 w-full h-full'
+                                    style={{
+                                        background: 'linear-gradient(to bottom, rgba(255, 117, 24, 0.8), rgba(255, 117, 24, 0))'
+                                    }}
+                                ></div>
                             </div>
+                            <p className='absolute top-0 left-4 font-bold text-2xl text-white'>Menu {selectedMakanan.menu}: {selectedMakanan.fungsi}</p>
                             <div className='flex flex-col w-full px-3 pb-3'>
                                 <p className='text-xl font-bold'>{selectedMakanan.nama}</p>
                                 <p className='text-xs'>{selectedMakanan.deskripsi}</p>
                             </div>
                         </div>
+
 
                         <div className={`w-full ${warna} rounded-xl shadow-xl flex flex-col space-y-1 pb-[36px] pt-2 overflow-hidden text-white font-medium items-center justify-center relative`}>
                             <div className='absolute h-0.5 bg-white top-[50px] rounded-full w-[93%]' />
