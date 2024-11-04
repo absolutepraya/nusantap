@@ -5,11 +5,13 @@ import Link from 'next/link';
 import { IconArrowLeft, IconBodyScan, IconBoltOff, IconQuestionMark } from '@tabler/icons-react';
 import nusantapLogo from '@/../public/images/nusantap-logo.png';
 import guide from '@/../public/images/guide.png';
+import { useViewportHeight } from '@/hooks/useViewportHeight';
 
 export default function Scan() {
 	const videoRef = useRef(null);
 	const canvasRef = useRef(null);
 	const [screenshot, setScreenshot] = useState(null);
+	const isTall = useViewportHeight(888);
 
 	useEffect(() => {
 		navigator.mediaDevices
@@ -38,20 +40,20 @@ export default function Scan() {
 	};
 
 	return (
-		<>
+		<div>
 			{!screenshot ? (
 				<video
 					ref={videoRef}
 					autoPlay
 					muted
-					className="absolute left-0 top-0 z-0 h-full w-full object-cover"
+					className={`${isTall ? "rounded-t-3xl" : ""} absolute left-0 top-0 z-0 h-[86%] w-full object-cover`}
 					style={{ transform: 'scaleX(-1)' }}
 				></video>
 			) : (
 				<img
 					src={screenshot}
 					alt="Screenshot"
-					className="absolute left-0 top-0 z-0 h-full w-full object-cover"
+						className={`${isTall ? "rounded-t-3xl" : ""} absolute left-0 top-0 z-0 h-[86%] w-full object-cover`}
 					style={{ transform: 'scaleX(-1)' }}
 				/>
 			)}
@@ -62,7 +64,7 @@ export default function Scan() {
 			></canvas>
 
 			{/* Gradient */}
-			<div className="absolute top-0 z-10 h-52 w-full bg-gradient-to-b from-[#FF7518] from-5% via-[#ff741825] via-70% to-transparent to-100%"></div>
+			<div className={`${isTall ? "rounded-t-3xl" : ""} absolute top-0 z-10 h-52 w-full bg-gradient-to-b from-[#FF7518] from-5% via-[#ff741825] via-70% to-transparent to-100%`}></div>
 
 			<img
 				src={guide.src}
@@ -70,9 +72,9 @@ export default function Scan() {
 				className="absolute top-[15%] z-20 h-auto w-full object-cover"
 			/>
 
-			<div className="sticky z-20 flex h-16 w-full flex-row items-center justify-between px-4">
+			<div className="sticky z-20 flex h-20 w-full flex-row items-center justify-between px-6">
 				<Link
-					href="/"
+					href="/select-profile"
 					className="rounded-full bg-[#D1DD25] p-2"
 				>
 					<IconArrowLeft
@@ -82,32 +84,30 @@ export default function Scan() {
 				</Link>
 
 				<div className="flex h-full w-auto items-center gap-4 text-sm">
-					<Link
-						href="/"
-						className="rounded-full bg-[#D1DD25] p-2"
+					<div
+						className="rounded-full bg-[#D1DD25] p-2 cursor-not-allowed"
 					>
 						<IconBoltOff
 							size={24}
 							strokeWidth={3}
 						/>
-					</Link>
-					<Link
-						href="/"
-						className="rounded-full bg-[#D1DD25] p-2"
+					</div>
+					<div
+						className="rounded-full bg-[#D1DD25] p-2 cursor-not-allowed"
 					>
 						<IconQuestionMark
 							size={24}
 							strokeWidth={3}
 						/>
-					</Link>
+					</div>
 				</div>
 			</div>
 
-			<div className="absolute bottom-0 z-10 h-60 w-full bg-[#0BB4AC80]">
+			<div className={`absolute bottom-0 z-10 h-60 w-full bg-[#0BB4AC80] ${isTall ? "rounded-b-3xl" : ""} overflow-hidden`}>
 				<div className="relative h-full w-full">
 					<div className="flex h-auto w-full items-center justify-start px-4 py-4">
 						<div className="absolute left-0 top-[-1] h-1 w-1/5 bg-[#FF7518]">
-							<div className="relative h-full w-full">
+							<div className="relative h-full w-full z-50">
 								<div className="absolute left-[95%] top-[-6] h-4 w-4 rounded-full bg-[#FF7518]"></div>
 							</div>
 						</div>
@@ -119,13 +119,13 @@ export default function Scan() {
 							/>
 						</div>
 
-						<div className="ml-4 flex w-auto flex-col text-white">
+						<div className="ml-4 mb-1 flex w-auto flex-col text-white">
 							<p className="text-2xl font-bold">Scanning</p>
-							<p className="text-xs">Pastikan Wajah, Tangan, Kuku, Rambut, dan Mata Anda terlihat dengan jelas</p>
+							<p className="text-xs">Pastikan wajah, tangan, kuku, rambut, dan mata Anda terlihat dengan jelas.</p>
 						</div>
 					</div>
 
-					<div className="flex h-full w-full items-start justify-center bg-[#05716C] px-4 pt-4">
+					<div className={`flex w-full h-32 ${isTall ? "rounded-b-3xl" : ""} items-center justify-center bg-[#05716C]`}>
 						<img
 							src={nusantapLogo.src}
 							alt="Nusantap Logo"
@@ -135,6 +135,6 @@ export default function Scan() {
 					</div>
 				</div>
 			</div>
-		</>
+		</div>
 	);
 }
