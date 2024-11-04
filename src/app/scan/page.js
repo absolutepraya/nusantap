@@ -7,6 +7,8 @@ import nusantapLogo from '@/../public/images/nusantap-logo.png';
 import guide from '@/../public/images/guide.png';
 import { useViewportHeight } from '@/hooks/useViewportHeight';
 import { useProfile } from '@/hooks/useProfile';
+import Loading from '@/components/loading';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Scan() {
 	const videoRef = useRef(null);
@@ -14,6 +16,7 @@ export default function Scan() {
 	const [screenshot, setScreenshot] = useState(null);
 	const [uploadedUrl, setUploadedUrl] = useState(null);
 	const { vec, setVec } = useProfile();
+	const [isLoading, setIsLoading] = useState(false);
 	const isTall = useViewportHeight(888);
 
 	useEffect(() => {
@@ -44,6 +47,8 @@ export default function Scan() {
 				const data = await response.json();
 				console.log('data', data);
 				setVec(data.vec);
+
+				sessionStorage.setItem('vec', JSON.stringify(data.vec));
 			}
 		} catch (error) {
 			console.error('Error uploading image:', error);
@@ -72,6 +77,7 @@ export default function Scan() {
 		const file = new File([blob], 'screenshot.png', { type: 'image/png' });
 
 		try {
+			setIsLoading(true);
 			const uploadResult = await uploadToCloudinary(file);
 			if (uploadResult && uploadResult.secure_url) {
 				console.log(uploadResult);
@@ -80,8 +86,7 @@ export default function Scan() {
 
 				await handleUploadImage(uploadResult.url);
 
-				// Redirect to the next page
-				// window.location.href = '/questionnaire';
+				window.location.href = '/questionnaire';
 			}
 		} catch (error) {
 			console.error('Error uploading to Cloudinary:', error);
@@ -108,20 +113,24 @@ export default function Scan() {
 
 	return (
 		<div>
+			<Loading
+				text={'Mengidentifikasi Kondisi Fisik mu...'}
+				isLoading={isLoading}
+			/>
 			{!screenshot ? (
 				<video
 					ref={videoRef}
 					autoPlay
 					muted
-					className={`${isTall ? 'rounded-t-3xl' : ''} absolute left-0 top-0 z-0 h-[86%] w-full object-cover`}
-					style={{ transform: 'scaleX(-1)' }}
+					className={`${isTall ? 'rounded-t-3xl' : ''} absolute left-0 top-0 z-0 h-[86%] w-full scale-x-[-1] transform object-cover`}
+					// md:scale-x-[-1]
 				></video>
 			) : (
 				<img
 					src={screenshot}
 					alt="Screenshot"
 					className={`${isTall ? 'rounded-t-3xl' : ''} absolute left-0 top-0 z-0 h-[86%] w-full object-cover`}
-					style={{ transform: 'scaleX(-1)' }}
+					// md:scale-x-[-1]
 				/>
 			)}
 
@@ -169,7 +178,7 @@ export default function Scan() {
 			<div className={`absolute bottom-0 z-10 h-60 w-full bg-[#0BB4AC80] ${isTall ? 'rounded-b-3xl' : ''}`}>
 				<div className="relative h-full w-full">
 					<div className="flex h-auto w-full items-center justify-start px-4 py-4">
-						<div className="absolute left-0 top-0 h-1 w-1/5 bg-[#FF7518]">
+						<div className="absolute left-0 top-0 h-1 w-1/3 bg-[#FF7518]">
 							<div className="relative z-50 h-full w-full">
 								<div className="absolute -top-1 left-[95%] z-[100] h-4 w-4 rounded-full bg-[#FF7518]"></div>
 							</div>
