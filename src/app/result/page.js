@@ -137,9 +137,11 @@ export default function Result() {
                             </div>
                             <div className={`w-full h-[36rem] bg-white ${showQR ? "" : "hidden"} flex items-center justify-center relative`}>
                                 <p className='text-xl font-semibold absolute top-12 text-center'>Tunjukkan QR ini pada staff<br/>Makan Bergizi Gratis</p>
-                                <div className='bg-black w-60 h-60'>
-
-                                </div>
+                                <img
+                                    src='/qr/qrdummy.png'
+                                    alt='QR Code'
+                                    className='w-60 h-60 object-contain'
+                                />
                                 <div className='border rounded-xl border-gray-300 w-[80%] px-3 py-2 absolute bottom-12'>
                                     <p className='text-xs'><span className='font-bold text-red-500'>Note: </span>Pastikan menu yang Anda terima sesuai dengan yang diberikan oleh aplikasi.</p>
                                 </div>
