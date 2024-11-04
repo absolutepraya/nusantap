@@ -5,9 +5,16 @@ import kuisionerLogo from '../../../public/images/kuesioner.png';
 import nusantapLogo from '@/../public/images/nusantap-logo.png';
 import Link from 'next/link';
 import { useViewportHeight } from '@/hooks/useViewportHeight';
+import { useEffect } from 'react';
+import { useProfile } from '@/hooks/useProfile';
 
 export default function Scan() {
 	const isTall = useViewportHeight(888);
+	const { vec, setVec } = useProfile();
+
+	useEffect(() => {
+		console.log('kuis', vec);
+	}, []);
 
 	return (
 		<>
@@ -26,9 +33,7 @@ export default function Scan() {
 				</Link>
 
 				<div className="flex h-full w-auto items-center gap-4 text-sm">
-					<div
-						className="rounded-full bg-[#D1DD25] p-2 cursor-not-allowed"
-					>
+					<div className="cursor-not-allowed rounded-full bg-[#D1DD25] p-2">
 						<IconQuestionMark
 							size={24}
 							strokeWidth={3}
@@ -42,7 +47,7 @@ export default function Scan() {
 					<IconBrandHipchat
 						size={64}
 						strokeWidth={2}
-						className='mt-2'
+						className="mt-2"
 					/>
 					<div className="flex h-full w-full flex-col">
 						<p className="text-3xl font-bold text-white">Kuesioner</p>
@@ -59,12 +64,12 @@ export default function Scan() {
 				</div>
 			</div>
 
-			<div className={`z-2 absolute bottom-0 flex h-auto w-full flex-col items-end gap-8 px-6 py-16 ${isTall ? "rounded-b-3xl" : ""}`}>
+			<div className={`z-2 absolute bottom-0 flex h-auto w-full flex-col items-end gap-8 px-6 py-16 ${isTall ? 'rounded-b-3xl' : ''}`}>
 				<div className="flex w-full flex-col items-start">
 					<img
 						src={nusantapLogo.src}
 						alt="Nusantap"
-						className="h-28 w-auto object-cover mb-3"
+						className="mb-3 h-28 w-auto object-cover"
 					/>
 					<p className="text-xl font-bold">Apakah Anda sering merasa lelah atau lemah tanpa alasan yang jelas?</p>
 				</div>

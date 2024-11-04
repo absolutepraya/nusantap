@@ -1,19 +1,19 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { IconArrowLeft, IconBodyScan, IconBoltOff, IconQuestionMark } from '@tabler/icons-react';
 import nusantapLogo from '@/../public/images/nusantap-logo.png';
 import guide from '@/../public/images/guide.png';
-import { ProfileContext } from '@/contexts/ProfileContext';
 import { useViewportHeight } from '@/hooks/useViewportHeight';
+import { useProfile } from '@/hooks/useProfile';
 
 export default function Scan() {
 	const videoRef = useRef(null);
 	const canvasRef = useRef(null);
 	const [screenshot, setScreenshot] = useState(null);
 	const [uploadedUrl, setUploadedUrl] = useState(null);
-	const { profileData, setProfileData } = useContext(ProfileContext);
+	const { vec, setVec } = useProfile();
 	const isTall = useViewportHeight(888);
 
 	useEffect(() => {
@@ -42,11 +42,8 @@ export default function Scan() {
 
 			if (response.ok) {
 				const data = await response.json();
-				console.log(data);
-				setProfileData({
-					...profileData,
-					vec: data.vec,
-				});
+				console.log('data', data);
+				setVec(data.vec);
 			}
 		} catch (error) {
 			console.error('Error uploading image:', error);
@@ -80,12 +77,11 @@ export default function Scan() {
 				console.log(uploadResult);
 				setUploadedUrl(uploadResult.url);
 				console.log('Image uploaded successfully:', uploadResult.url);
-				setProfileData({
-					...profileData,
-					image_url: uploadResult.url,
-				});
 
-				handleUploadImage(uploadResult.url);
+				await handleUploadImage(uploadResult.url);
+
+				// Redirect to the next page
+				// window.location.href = '/questionnaire';
 			}
 		} catch (error) {
 			console.error('Error uploading to Cloudinary:', error);
@@ -170,12 +166,12 @@ export default function Scan() {
 				</div>
 			</div>
 
-			<div className={`absolute bottom-0 z-10 h-60 w-full bg-[#0BB4AC80] ${isTall ? 'rounded-b-3xl' : ''} overflow-hidden`}>
+			<div className={`absolute bottom-0 z-10 h-60 w-full bg-[#0BB4AC80] ${isTall ? 'rounded-b-3xl' : ''}`}>
 				<div className="relative h-full w-full">
 					<div className="flex h-auto w-full items-center justify-start px-4 py-4">
-						<div className="absolute left-0 top-[-1] h-1 w-1/5 bg-[#FF7518]">
+						<div className="absolute left-0 top-0 h-1 w-1/5 bg-[#FF7518]">
 							<div className="relative z-50 h-full w-full">
-								<div className="absolute left-[95%] top-[-6] h-4 w-4 rounded-full bg-[#FF7518]"></div>
+								<div className="absolute -top-1 left-[95%] z-[100] h-4 w-4 rounded-full bg-[#FF7518]"></div>
 							</div>
 						</div>
 						<div>

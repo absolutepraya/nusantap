@@ -2,8 +2,8 @@
 // contexts/ProfileContext.js
 import { createContext, useContext, useState } from 'react';
 
-// Create the context with initial values
-export const ProfileContext = createContext();
+// Create the context
+export const ProfileContext = createContext(undefined);
 
 // Create a provider component
 export function ProfileProvider({ children }) {
@@ -12,15 +12,14 @@ export function ProfileProvider({ children }) {
 		vec: [],
 		id: '',
 	});
+	const [vec, setVec] = useState([]);
+	// Create a value object that includes both state and setter
+	const value = {
+		profileData,
+		vec,
+		setVec,
+		setProfileData,
+	};
 
-	return (
-		<ProfileContext.Provider
-			value={{
-				profileData,
-				setProfileData,
-			}}
-		>
-			{children}
-		</ProfileContext.Provider>
-	);
+	return <ProfileContext.Provider value={value}>{children}</ProfileContext.Provider>;
 }
