@@ -7,13 +7,41 @@ import nusantapLogo from '@/../public/images/nusantap-logo.png';
 import guide from '@/../public/images/guide.png';
 import { useViewportHeight } from '@/hooks/useViewportHeight';
 import { useProfile } from '@/hooks/useProfile';
+import Loading from '@/components/loading';
+import { motion, AnimatePresence } from 'framer-motion';
 
+const TextIntro = () => {
+	return (
+		<AnimatePresence>
+			<motion.div
+				initial={{ opacity: 1, y: -20 }}
+				animate={{ opacity: 0, y: 0 }}
+				exit={{ opacity: 0, y: -20 }}
+				transition={{ duration: 1 }}
+				className="absolute z-50 flex h-screen w-full flex-col items-center justify-center bg-white text-2xl font-bold text-white"
+			>
+				<img
+					src="/elements/loadingbg.svg"
+					alt="Loading Background"
+					className="absolute z-[-2] h-auto w-full object-cover"
+				/>
+				<img
+					src="/elements/logo.svg"
+					alt="Logo"
+					className="h-32 w-32"
+				/>
+				{/* <p className="pt-16">Bersiap Untuk Uemotret Anak</p> */}
+			</motion.div>
+		</AnimatePresence>
+	);
+};
 export default function Scan() {
 	const videoRef = useRef(null);
 	const canvasRef = useRef(null);
 	const [screenshot, setScreenshot] = useState(null);
 	const [uploadedUrl, setUploadedUrl] = useState(null);
 	const { vec, setVec } = useProfile();
+	const [isLoading, setIsLoading] = useState(false);
 	const isTall = useViewportHeight(888);
 
 	useEffect(() => {
@@ -44,6 +72,8 @@ export default function Scan() {
 				const data = await response.json();
 				console.log('data', data);
 				setVec(data.vec);
+
+				sessionStorage.setItem('vec', JSON.stringify(data.vec));
 			}
 		} catch (error) {
 			console.error('Error uploading image:', error);
@@ -72,6 +102,7 @@ export default function Scan() {
 		const file = new File([blob], 'screenshot.png', { type: 'image/png' });
 
 		try {
+			setIsLoading(true);
 			const uploadResult = await uploadToCloudinary(file);
 			if (uploadResult && uploadResult.secure_url) {
 				console.log(uploadResult);
@@ -80,8 +111,7 @@ export default function Scan() {
 
 				await handleUploadImage(uploadResult.url);
 
-				// Redirect to the next page
-				// window.location.href = '/questionnaire';
+				window.location.href = '/questionnaire';
 			}
 		} catch (error) {
 			console.error('Error uploading to Cloudinary:', error);
@@ -108,6 +138,11 @@ export default function Scan() {
 
 	return (
 		<div>
+			<Loading
+				text={'Mengidentifikasi Kondisi Fisik mu...'}
+				isLoading={isLoading}
+			/>
+			<TextIntro />
 			{!screenshot ? (
 				<video
 					ref={videoRef}

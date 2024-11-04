@@ -8,10 +8,10 @@ const client = new OpenAI();
 
 export async function POST(request) {
 	try {
-		const { message, conversationHistory, previousVec } = await request.json();
+		let { message, conversationHistory, previousVec } = await request.json();
 		console.log('message', message);
 
-		const history = conversationHistory || 'Silahkan mulai tanya beberapa pertanyaan mengenai kondisiku.';
+		message = conversationHistory || 'Silahkan mulai tanya beberapa pertanyaan mengenai kondisiku.';
 
 		const completion = await client.chat.completions.create({
 			model: 'gpt-4o-2024-08-06',
@@ -33,7 +33,7 @@ export async function POST(request) {
 				},
 				{
 					role: 'user',
-					content: `${message}\n${history}`,
+					content: `${message}\n${conversationHistory}`,
 				},
 			],
 			response_format: { type: 'json_object' },
