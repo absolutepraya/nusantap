@@ -79,7 +79,7 @@ export default function Select() {
                                     <IconTrash size={24} strokeWidth={2} />
                                 </div>
                                 <div 
-                                    className="w-full aspect-square border-2 shadow-lg rounded-xl flex flex-col items-center justify-center space-y-5" href={`/scan?profile=${index}`}
+                                    className="w-full aspect-square border-2 shadow-lg rounded-xl flex flex-col items-center justify-center space-y-5 cursor-pointer" href={`/scan?profile=${index}`}
                                     onClick={() => {
                                         window.location.href = `/scan?profile=${index}`;
                                     }}

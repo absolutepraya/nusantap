@@ -14,7 +14,7 @@ export default function Scan() {
 
 	useEffect(() => {
 		console.log('kuis', vec);
-	}, []);
+	}, [vec]);
 
 	return (
 		<>
@@ -58,7 +58,7 @@ export default function Scan() {
 				<div className="mt-5 h-1 w-full bg-gray-500/30">
 					<div className="left-0 h-1 w-1/5 bg-[#FF7518]">
 						<div className="relative h-full w-full">
-							<div className="absolute left-[95%] top-[-6] h-4 w-4 rounded-full bg-[#FF7518]"></div>
+							<div className="absolute left-[95%] top-[-6px] h-4 w-4 rounded-full bg-[#FF7518]"></div>
 						</div>
 					</div>
 				</div>
