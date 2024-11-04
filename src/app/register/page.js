@@ -125,7 +125,7 @@ export default function Login() {
 								(Opsional)
 							</label>
 						</div>
-						<div className="flex w-full justify-center">
+						<div className="flex w-full justify-center pt-20">
 							<p className="text-xs">
 								Sudah punya akun SATUSEHAT Mobile?{' '}
 								<a
@@ -140,8 +140,12 @@ export default function Login() {
 							className="relative flex h-12 w-full items-center justify-center rounded-lg bg-[#5699fd] text-white"
 							href="/login/"
 						>
-							Daftar
-							<p className="absolute -top-4 text-[10px] text-black">Fitur login belum terimplementasi, silakan langsung tekan tombol &quot;Daftar&quot;</p>
+							<div className="absolute text-black bottom-24 w-[80%] rounded-xl border border-gray-300 px-3 py-2">
+								<p className="text-xs">
+									<span className="font-bold text-red-500">Note: </span>Fitur register belum terimplementasi, silakan langsung tekan tombol &quot;Daftar&quot;.
+								</p>
+							</div>
+							<p>Daftar</p>
 						</a>
 					</div>
 				</div>

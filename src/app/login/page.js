@@ -35,6 +35,11 @@ export default function Login() {
                 </div>
             </div>
             <div className='bg-[#5699fd] text-white flex items-center justify-center rounded-lg h-12 w-full z-10 relative cursor-pointer' onClick={() => window.location.href = '/features/'}>
+                <div className="absolute text-black bottom-24 w-[80%] rounded-xl border border-gray-300 px-3 py-2">
+                    <p className="text-xs">
+                        <span className="font-bold text-red-500">Note: </span>Fitur login belum terimplementasi, silakan langsung tekan tombol &quot;Masuk&quot;.
+                    </p>
+                </div>
                 <div className='absolute w-full flex justify-center -top-8 text-black'>
                     <p className='text-xs'>Belum punya akun SATUSEHAT Mobile? <a className='text-[#5699fd]' href='/register/'>Daftar</a></p>
                 </div>
