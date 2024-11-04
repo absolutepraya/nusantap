@@ -141,7 +141,7 @@ export default function Login() {
 							href="/login/"
 						>
 							Daftar
-							<p className="absolute -top-4 text-[10px] text-black">Fitur login belum terimplementasi, silakan langsung tekan tombol "Daftar"</p>
+							<p className="absolute -top-4 text-[10px] text-black">Fitur login belum terimplementasi, silakan langsung tekan tombol &quot;Daftar&quot;</p>
 						</a>
 					</div>
 				</div>
