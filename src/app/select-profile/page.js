@@ -2,7 +2,7 @@
 'use client';
 import Link from 'next/link';
 import Image from 'next/image';
-import { IconArrowLeft, IconPlus, IconMessageQuestion, IconUserFilled } from "@tabler/icons-react";
+import { IconArrowLeft, IconPlus, IconMessageQuestion, IconUserFilled, IconDotsVertical, IconDots, IconTrash } from "@tabler/icons-react";
 import ScrollableFeed from 'react-scrollable-feed'
 import { useViewportHeight } from '@/hooks/useViewportHeight';
 import { useEffect, useRef, useState } from 'react';
@@ -64,15 +64,35 @@ export default function Select() {
 
                     <div className='grid grid-cols-2 gap-4 w-full'>
                         {profiles.map((profile, index) => (
-                            <a key={index} className="w-full aspect-square border-2 shadow-lg rounded-xl flex flex-col items-center justify-center space-y-5" href={`/scan?profile=${index}`}>
-                                <div className='bg-[#4ae6b7] w-20 h-20 rounded-full flex items-center justify-center text-white'>
-                                    <IconUserFilled size={36} strokeWidth={2} />
+                            <div key={index} className='relative'>
+                                <div
+                                    className='absolute top-[0.65rem] right-[0.65rem] text-red-400 cursor-pointer'
+                                    onClick={() => {
+                                        // Confirm delete
+                                        if (!confirm('Apakah Anda yakin ingin menghapus profil ini?')) return;
+
+                                        const newProfiles = profiles.filter((_, i) => i !== index);
+                                        setProfiles(newProfiles);
+                                        localStorage.setItem('profiles', JSON.stringify(newProfiles));
+                                    }}
+                                >
+                                    <IconTrash size={24} strokeWidth={2} />
                                 </div>
-                                <div className='flex flex-col space-y-1 text-center'>
-                                    <p className='text-sm font-semibold'>{profile.nama}</p>
-                                    <p className='text-gray-400 text-xs'>{calculateAge(profile.tanggalLahir)} tahun</p>
+                                <div 
+                                    className="w-full aspect-square border-2 shadow-lg rounded-xl flex flex-col items-center justify-center space-y-5" href={`/scan?profile=${index}`}
+                                    onClick={() => {
+                                        window.location.href = `/scan?profile=${index}`;
+                                    }}
+                                >
+                                    <div className='bg-[#4ae6b7] w-20 h-20 rounded-full flex items-center justify-center text-white'>
+                                        <IconUserFilled size={36} strokeWidth={2} />
+                                    </div>
+                                    <div className='flex flex-col space-y-1 text-center'>
+                                        <p className='text-sm font-semibold'>{profile.nama}</p>
+                                        <p className='text-gray-400 text-xs'>{calculateAge(profile.tanggalLahir)} tahun</p>
+                                    </div>
                                 </div>
-                            </a>
+                            </div>
                         ))}
                         <a className={`${count >= 5 ? 'hidden' : ''} w-full aspect-square border-2 border-custblue border-dashed rounded-xl flex flex-col items-center justify-center space-y-5 text-custblue`} href='/create-profile'>
                             <div className='bg-custlightblue w-20 h-20 rounded-full flex items-center justify-center'>
