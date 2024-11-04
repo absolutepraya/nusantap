@@ -10,31 +10,6 @@ import { useProfile } from '@/hooks/useProfile';
 import Loading from '@/components/loading';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const TextIntro = () => {
-	return (
-		<AnimatePresence>
-			<motion.div
-				initial={{ opacity: 1, y: -20 }}
-				animate={{ opacity: 0, y: 0 }}
-				exit={{ opacity: 0, y: -20 }}
-				transition={{ duration: 1 }}
-				className="absolute z-50 flex h-screen w-full flex-col items-center justify-center bg-white text-2xl font-bold text-white"
-			>
-				<img
-					src="/elements/loadingbg.svg"
-					alt="Loading Background"
-					className="absolute z-[-2] h-auto w-full object-cover"
-				/>
-				<img
-					src="/elements/logo.svg"
-					alt="Logo"
-					className="h-32 w-32"
-				/>
-				{/* <p className="pt-16">Bersiap Untuk Uemotret Anak</p> */}
-			</motion.div>
-		</AnimatePresence>
-	);
-};
 export default function Scan() {
 	const videoRef = useRef(null);
 	const canvasRef = useRef(null);
@@ -142,21 +117,20 @@ export default function Scan() {
 				text={'Mengidentifikasi Kondisi Fisik mu...'}
 				isLoading={isLoading}
 			/>
-			<TextIntro />
 			{!screenshot ? (
 				<video
 					ref={videoRef}
 					autoPlay
 					muted
 					className={`${isTall ? 'rounded-t-3xl' : ''} absolute left-0 top-0 z-0 h-[86%] w-full object-cover`}
-				// md:scale-x-[-1]
+					// md:scale-x-[-1]
 				></video>
 			) : (
 				<img
 					src={screenshot}
 					alt="Screenshot"
 					className={`${isTall ? 'rounded-t-3xl' : ''} absolute left-0 top-0 z-0 h-[86%] w-full object-cover`}
-				// md:scale-x-[-1]
+					// md:scale-x-[-1]
 				/>
 			)}
 
