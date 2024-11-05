@@ -122,7 +122,7 @@ export default function Scan() {
 					ref={videoRef}
 					autoPlay
 					muted
-					className={`${isTall ? 'rounded-t-3xl' : ''} absolute left-0 top-0 z-0 h-[86%] w-full scale-x-[-1] transform object-cover`}
+					className={`${isTall ? 'rounded-t-3xl' : ''} absolute left-0 top-0 z-0 h-[86%] w-full transform object-cover`}
 					// md:scale-x-[-1]
 				></video>
 			) : (
