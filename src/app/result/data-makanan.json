@@ -1,140 +1,143 @@
 [
-  {
-    "menu": "A",
-    "fungsi": "Pemenuhan Protein",
-    "nama": "Nasi Ayam Kecap",
-    "deskripsi": "Nasi Ayam Kecap adalah hidangan lezat yang terdiri dari nasi putih hangat dengan ayam yang dimasak dalam saus kecap manis gurih.",
-    "gambar": "/makanan/nasiayamkecap.jpg",
-    "warna": "#ffdd28",
-    "nutrisi": [
-      {
-        "nama_nutrisi": "Lemak",
-        "jumlah": "10 g",
-        "akg": "22%",
-        "edukasi": "Lemak membantu tubuh menyerap vitamin dan menyediakan energi, namun konsumsi berlebih bisa meningkatkan risiko penyakit jantung."
-      },
-      {
-        "nama_nutrisi": "Karbohidrat",
-        "jumlah": "50 g",
-        "akg": "17%",
-        "edukasi": "Karbohidrat adalah sumber energi utama tubuh yang dibutuhkan untuk aktivitas sehari-hari."
-      },
-      {
-        "nama_nutrisi": "Serat",
-        "jumlah": "7 g",
-        "akg": "19%",
-        "edukasi": "Serat penting untuk pencernaan yang sehat, membantu mencegah sembelit dan menjaga kadar gula darah."
-      },
-      {
-        "nama_nutrisi": "Protein",
-        "jumlah": "25 g",
-        "akg": "50%",
-        "edukasi": "Protein diperlukan untuk membangun dan memperbaiki jaringan tubuh serta mendukung sistem kekebalan."
-      },
-      {
-        "nama_nutrisi": "Vitamin D",
-        "jumlah": "0.4 mg",
-        "akg": null,
-        "edukasi": "Vitamin D berperan dalam menjaga kesehatan tulang dan mendukung sistem kekebalan tubuh."
-      },
-      {
-        "nama_nutrisi": "Zat Besi (Fe)",
-        "jumlah": "3 mg",
-        "akg": null,
-        "edukasi": "Zat besi penting untuk pembentukan sel darah merah dan mencegah anemia."
-      }
-    ]
-  },
-  {
-    "menu": "B",
-    "fungsi": "Pemenuhan Vitamin A",
-    "nama": "Nasi Ayam Tumis Wortel",
-    "deskripsi": "Nasi Ayam Tumis Wortel adalah sajian sehat yang menggabungkan nasi putih dengan ayam tumis dan wortel segar.",
-    "gambar": "/makanan/nasitumisayamwortel.jpg",
-    "warna": "#ff8a3b",
-    "nutrisi": [
-      {
-        "nama_nutrisi": "Lemak",
-        "jumlah": "8 g",
-        "akg": "20%",
-        "edukasi": "Lemak membantu tubuh menyerap vitamin dan menyediakan energi, namun konsumsi berlebih bisa meningkatkan risiko penyakit jantung."
-      },
-      {
-        "nama_nutrisi": "Karbohidrat",
-        "jumlah": "50 g",
-        "akg": "17%",
-        "edukasi": "Karbohidrat adalah sumber energi utama tubuh yang dibutuhkan untuk aktivitas sehari-hari."
-      },
-      {
-        "nama_nutrisi": "Serat",
-        "jumlah": "7 g",
-        "akg": "19%",
-        "edukasi": "Serat penting untuk pencernaan yang sehat, membantu mencegah sembelit dan menjaga kadar gula darah."
-      },
-      {
-        "nama_nutrisi": "Protein",
-        "jumlah": "19 g",
-        "akg": "35%",
-        "edukasi": "Protein diperlukan untuk membangun dan memperbaiki jaringan tubuh serta mendukung sistem kekebalan."
-      },
-      {
-        "nama_nutrisi": "Vitamin A",
-        "jumlah": "250-300 mcg",
-        "akg": null,
-        "edukasi": "Vitamin A berperan penting dalam menjaga kesehatan mata, sistem kekebalan, dan pertumbuhan sel tubuh."
-      },
-      {
-        "nama_nutrisi": "Zat Besi (Fe)",
-        "jumlah": "2 mg",
-        "akg": null,
-        "edukasi": "Zat besi penting untuk pembentukan sel darah merah dan mencegah anemia."
-      }
-    ]
-  },
-  {
-    "menu": "C",
-    "fungsi": "Pemenuhan Zinc",
-    "nama": "Sop Ikan, Bayam, & Kentang",
-    "deskripsi": "Sop Ikan, Bayam, & Kentang adalah sup bergizi yang menyajikan ikan segar, bayam, dan kentang dalam kuah kaldu yang ringan.",
-    "gambar": "/makanan/sopikanbayamkentang.jpg",
-    "warna": "#2a8630",
-    "nutrisi": [
-      {
-        "nama_nutrisi": "Lemak",
-        "jumlah": "8 g",
-        "akg": "20%",
-        "edukasi": "Lemak membantu tubuh menyerap vitamin dan menyediakan energi, namun konsumsi berlebih bisa meningkatkan risiko penyakit jantung."
-      },
-      {
-        "nama_nutrisi": "Karbohidrat",
-        "jumlah": "50 g",
-        "akg": "17%",
-        "edukasi": "Karbohidrat adalah sumber energi utama tubuh yang dibutuhkan untuk aktivitas sehari-hari."
-      },
-      {
-        "nama_nutrisi": "Serat",
-        "jumlah": "7 g",
-        "akg": "19%",
-        "edukasi": "Serat penting untuk pencernaan yang sehat, membantu mencegah sembelit dan menjaga kadar gula darah."
-      },
-      {
-        "nama_nutrisi": "Protein",
-        "jumlah": "20 g",
-        "akg": "38%",
-        "edukasi": "Protein diperlukan untuk membangun dan memperbaiki jaringan tubuh serta mendukung sistem kekebalan."
-      },
-      {
-        "nama_nutrisi": "Vitamin B1",
-        "jumlah": "0.3 mg",
-        "akg": null,
-        "edukasi": "Vitamin B1 (tiamin) penting untuk metabolisme energi dan fungsi saraf yang sehat."
-      },
-      {
-        "nama_nutrisi": "Zat Besi (Fe)",
-        "jumlah": "8 mg",
-        "akg": null,
-        "edukasi": "Zat besi penting untuk pembentukan sel darah merah dan mencegah anemia."
-      }
-    ]
-  }
+	{
+		"id": 0,
+		"menu": "A",
+		"fungsi": "Pemenuhan Protein",
+		"nama": "Nasi Ayam Kecap",
+		"deskripsi": "Nasi Ayam Kecap adalah hidangan lezat yang terdiri dari nasi putih hangat dengan ayam yang dimasak dalam saus kecap manis gurih.",
+		"gambar": "/makanan/nasiayamkecap.jpg",
+		"warna": "#ffdd28",
+		"nutrisi": [
+			{
+				"nama_nutrisi": "Lemak",
+				"jumlah": "10 g",
+				"akg": "22%",
+				"edukasi": "Lemak membantu tubuh menyerap vitamin dan menyediakan energi, namun konsumsi berlebih bisa meningkatkan risiko penyakit jantung."
+			},
+			{
+				"nama_nutrisi": "Karbohidrat",
+				"jumlah": "50 g",
+				"akg": "17%",
+				"edukasi": "Karbohidrat adalah sumber energi utama tubuh yang dibutuhkan untuk aktivitas sehari-hari."
+			},
+			{
+				"nama_nutrisi": "Serat",
+				"jumlah": "7 g",
+				"akg": "19%",
+				"edukasi": "Serat penting untuk pencernaan yang sehat, membantu mencegah sembelit dan menjaga kadar gula darah."
+			},
+			{
+				"nama_nutrisi": "Protein",
+				"jumlah": "25 g",
+				"akg": "50%",
+				"edukasi": "Protein diperlukan untuk membangun dan memperbaiki jaringan tubuh serta mendukung sistem kekebalan."
+			},
+			{
+				"nama_nutrisi": "Vitamin D",
+				"jumlah": "0.4 mg",
+				"akg": null,
+				"edukasi": "Vitamin D berperan dalam menjaga kesehatan tulang dan mendukung sistem kekebalan tubuh."
+			},
+			{
+				"nama_nutrisi": "Zat Besi (Fe)",
+				"jumlah": "3 mg",
+				"akg": null,
+				"edukasi": "Zat besi penting untuk pembentukan sel darah merah dan mencegah anemia."
+			}
+		]
+	},
+	{
+		"id": 1,
+		"menu": "B",
+		"fungsi": "Pemenuhan Vitamin A",
+		"nama": "Nasi Ayam Tumis Wortel",
+		"deskripsi": "Nasi Ayam Tumis Wortel adalah sajian sehat yang menggabungkan nasi putih dengan ayam tumis dan wortel segar.",
+		"gambar": "/makanan/nasitumisayamwortel.jpg",
+		"warna": "#ff8a3b",
+		"nutrisi": [
+			{
+				"nama_nutrisi": "Lemak",
+				"jumlah": "8 g",
+				"akg": "20%",
+				"edukasi": "Lemak membantu tubuh menyerap vitamin dan menyediakan energi, namun konsumsi berlebih bisa meningkatkan risiko penyakit jantung."
+			},
+			{
+				"nama_nutrisi": "Karbohidrat",
+				"jumlah": "50 g",
+				"akg": "17%",
+				"edukasi": "Karbohidrat adalah sumber energi utama tubuh yang dibutuhkan untuk aktivitas sehari-hari."
+			},
+			{
+				"nama_nutrisi": "Serat",
+				"jumlah": "7 g",
+				"akg": "19%",
+				"edukasi": "Serat penting untuk pencernaan yang sehat, membantu mencegah sembelit dan menjaga kadar gula darah."
+			},
+			{
+				"nama_nutrisi": "Protein",
+				"jumlah": "19 g",
+				"akg": "35%",
+				"edukasi": "Protein diperlukan untuk membangun dan memperbaiki jaringan tubuh serta mendukung sistem kekebalan."
+			},
+			{
+				"nama_nutrisi": "Vitamin A",
+				"jumlah": "250-300 mcg",
+				"akg": null,
+				"edukasi": "Vitamin A berperan penting dalam menjaga kesehatan mata, sistem kekebalan, dan pertumbuhan sel tubuh."
+			},
+			{
+				"nama_nutrisi": "Zat Besi (Fe)",
+				"jumlah": "2 mg",
+				"akg": null,
+				"edukasi": "Zat besi penting untuk pembentukan sel darah merah dan mencegah anemia."
+			}
+		]
+	},
+	{
+		"id": 2,
+		"menu": "C",
+		"fungsi": "Pemenuhan Zinc",
+		"nama": "Sop Ikan, Bayam, & Kentang",
+		"deskripsi": "Sop Ikan, Bayam, & Kentang adalah sup bergizi yang menyajikan ikan segar, bayam, dan kentang dalam kuah kaldu yang ringan.",
+		"gambar": "/makanan/sopikanbayamkentang.jpg",
+		"warna": "#2a8630",
+		"nutrisi": [
+			{
+				"nama_nutrisi": "Lemak",
+				"jumlah": "8 g",
+				"akg": "20%",
+				"edukasi": "Lemak membantu tubuh menyerap vitamin dan menyediakan energi, namun konsumsi berlebih bisa meningkatkan risiko penyakit jantung."
+			},
+			{
+				"nama_nutrisi": "Karbohidrat",
+				"jumlah": "50 g",
+				"akg": "17%",
+				"edukasi": "Karbohidrat adalah sumber energi utama tubuh yang dibutuhkan untuk aktivitas sehari-hari."
+			},
+			{
+				"nama_nutrisi": "Serat",
+				"jumlah": "7 g",
+				"akg": "19%",
+				"edukasi": "Serat penting untuk pencernaan yang sehat, membantu mencegah sembelit dan menjaga kadar gula darah."
+			},
+			{
+				"nama_nutrisi": "Protein",
+				"jumlah": "20 g",
+				"akg": "38%",
+				"edukasi": "Protein diperlukan untuk membangun dan memperbaiki jaringan tubuh serta mendukung sistem kekebalan."
+			},
+			{
+				"nama_nutrisi": "Vitamin B1",
+				"jumlah": "0.3 mg",
+				"akg": null,
+				"edukasi": "Vitamin B1 (tiamin) penting untuk metabolisme energi dan fungsi saraf yang sehat."
+			},
+			{
+				"nama_nutrisi": "Zat Besi (Fe)",
+				"jumlah": "8 mg",
+				"akg": null,
+				"edukasi": "Zat besi penting untuk pembentukan sel darah merah dan mencegah anemia."
+			}
+		]
+	}
 ]

@@ -4,15 +4,17 @@ import { IconArrowLeft, IconCheck, IconMessage, IconQuestionMark } from '@tabler
 import maleWhite from '../../../public/images/male-white.png';
 import maleOrange from '../../../public/images/male-orange.png';
 import { useEffect, useState } from 'react';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '@/utils/firebase/firebase';
 import { motion, animate, useMotionValue } from 'framer-motion';
+import dataMakanan from '../result/data-makanan.json';
+import { set } from 'firebase/database';
 
 export default function Loading() {
 	const [profileId, setProfileId] = useState(0);
 	const [profileData, setProfileData] = useState(null);
 	const fillHeight = useMotionValue('0%');
-	const percentage = 45;
+	const [percentage, setPercentage] = useState(0);
 
 	useEffect(() => {
 		animate(fillHeight, `${percentage}%`, {
@@ -29,18 +31,31 @@ export default function Loading() {
 
 		// Fetch profile data
 
-		const getProfileData = async (id) => {
-			const response = await getDoc(doc(db, 'profiles', id));
+		const menuId = sessionStorage.getItem('menuId');
 
-			if (response.exists()) {
-				setProfileData(response.data());
-			}
+		console.log(dataMakanan);
+		const menu = dataMakanan[menuId];
 
-			console.log(response.data());
-			return response;
-		};
+		console.log('Menu', menu);
 
-		getProfileData(profile);
+		let selectedProfile = sessionStorage.getItem('selectedProfile');
+
+		// turn selectedProfile into an object
+
+		selectedProfile = JSON.parse(selectedProfile);
+
+		console.log('Selected Profile', selectedProfile);
+		setProfileData(selectedProfile);
+
+		const percentage = calculateAKGFulfillment(16, selectedProfile?.jenisKelamin, menu);
+		setPercentage(percentage);
+
+		// Save the percentage to the database
+		const docRef = doc(db, 'profiles', profile);
+		setDoc(docRef, {
+			...selectedProfile,
+			akg: percentage,
+		});
 	}, []);
 
 	function calculateAge(tanggalLahir) {
@@ -59,9 +74,97 @@ export default function Loading() {
 		return age;
 	}
 
+	function calculateAKGFulfillment(age, gender, menu) {
+		// Define the AKG values for different age groups and genders
+
+		console.log(age, gender, menu);
+		const akgValues = {
+			protein: {
+				l: {
+					'1-3': 16,
+					'4-6': 26,
+					'7-9': 34,
+					'10-12': 44,
+					'13-15': 59,
+					'16-18': 62,
+				},
+				p: {
+					'1-3': 16,
+					'4-6': 26,
+					'7-9': 34,
+					'10-12': 44,
+					'13-15': 48,
+					'16-18': 56,
+				},
+			},
+			vitaminA: {
+				'1-3': 400,
+				'4-6': 450,
+				'7-9': 600,
+				'10-12': 700,
+				'13-15': 800,
+				'16-18': 900,
+			},
+			zn: {
+				l: {
+					'1-3': 4,
+					'4-6': 5,
+					'7-9': 8,
+					'10-12': 9,
+					'13-15': 11,
+					'16-18': 12,
+				},
+				p: {
+					'1-3': 4,
+					'4-6': 5,
+					'7-9': 8,
+					'10-12': 9,
+					'13-15': 9,
+					'16-18': 10,
+				},
+			},
+		};
+
+		// Determine the age group and gender
+		let ageGroup;
+		if (age >= 1 && age <= 3) {
+			ageGroup = '1-3';
+		} else if (age >= 4 && age <= 6) {
+			ageGroup = '4-6';
+		} else if (age >= 7 && age <= 9) {
+			ageGroup = '7-9';
+		} else if (age >= 10 && age <= 12) {
+			ageGroup = '10-12';
+		} else if (age >= 13 && age <= 15) {
+			ageGroup = '13-15';
+		} else if (age >= 16 && age <= 18) {
+			ageGroup = '16-18';
+		} else {
+			ageGroup = '16-18';
+		}
+
+		const genderKey = gender.toLowerCase();
+
+		const protein = menu.nutrisi.find((n) => n.nama_nutrisi === 'Protein');
+		const proteinValue = protein ? parseFloat(protein.jumlah.split(' ')[0]) : 0;
+		const proteinFulfillment = protein ? (proteinValue / akgValues.protein[genderKey][ageGroup]) * 100 : 0;
+
+		const vitaminA = menu.nutrisi.find((n) => n.nama_nutrisi === 'Vitamin A');
+		const vitaminAValue = vitaminA ? parseFloat(vitaminA.jumlah.split(' ')[0]) : 0;
+		const vitaminAFulfillment = vitaminA ? (vitaminAValue / akgValues.vitaminA[ageGroup]) * 100 : 0;
+
+		const zinc = menu.nutrisi.find((n) => n.nama_nutrisi === 'Zat Besi (Fe)');
+		const zincValue = zinc ? parseFloat(zinc.jumlah.split(' ')[0]) : 0;
+		const zincFulfillment = zinc ? (zincValue / akgValues.zn[genderKey][ageGroup]) * 100 : 0;
+
+		// Return the average of the nutrient fulfillment percentages
+		const fulfillmentPercentages = [proteinFulfillment, vitaminAFulfillment, zincFulfillment].filter((p) => !isNaN(p));
+		return fulfillmentPercentages.length > 0 ? Math.round(fulfillmentPercentages.reduce((a, b) => a + b) / fulfillmentPercentages.length) : 0;
+	}
+
 	return (
 		<motion.div
-			className={`absolute left-0 top-0 h-[888px] w-[450px]`}
+			className={`absolute left-0 top-0 h-screen max-h-[888px] w-[450px]`}
 			initial={{ opacity: 0 }}
 			animate={{ opacity: 1 }}
 			exit={{ opacity: 0 }}
@@ -73,8 +176,8 @@ export default function Loading() {
 				className="absolute h-auto w-full object-cover"
 			/>
 
-			<div className="absolute z-10 flex h-full w-full flex-col items-center">
-				<div className="h-auto w-full pt-10">
+			<div className="absolute z-10 flex h-full w-full flex-col items-center justify-between py-10">
+				<div className="h-auto w-full">
 					<div className="flex w-full justify-between gap-4 px-8 text-white">
 						<IconCheck
 							size={64}
@@ -96,61 +199,80 @@ export default function Loading() {
 						className="relative h-full w-auto"
 					/>
 
-					{/* Orange filling layer - position it with the correct scaling */}
-					{/* <motion.div
-						className="absolute bottom-0 left-0 right-0 overflow-hidden"
-						style={{ height: '45%' }} // This is the visible clipped height
+					{/* Animated container to clip the orange image */}
+					<motion.div
+						className="absolute bottom-0 flex w-full overflow-hidden"
+						initial={{ height: '0%' }} // Start with 0% height
+						animate={{ height: `${percentage}%` }} // Animate to the given percentage
+						transition={{ duration: 2, ease: 'easeInOut' }} // Animation duration and easing
 					>
-						<div className="relative h-full">
-							<img
-								src={maleOrange.src}
-								alt=""
-								className="h-full w-auto"
-								style={{ objectFit: 'cover' }}
-							/>
+						<div className="absolute bottom-0 h-full w-full">
+							<div className="relative h-full w-full">
+								<img
+									src={maleOrange.src}
+									alt=""
+									className="absolute bottom-0 h-full w-full object-cover object-bottom"
+								/>
+							</div>
 						</div>
-					</motion.div> */}
+					</motion.div>
 
 					{/* Percentage text */}
-					<p className="absolute text-xl font-bold text-[#FF7518]">45%</p>
-				</div>
-
-				<div className="flex h-auto w-10/12 flex-col rounded-md bg-white p-3">
-					<div className="flex h-auto items-end gap-2 border-b-2 border-[#FF7518] pb-2">
-						<p className="text-4xl font-bold text-[#FF7518]">45%</p>
-						<p className="text-sm text-gray-500">Kebutuhan gizi harian anda terpenuhi</p>
-					</div>
-					<div>
-						<p className="font-bold">{profileData?.nama}</p>
-						<p>{calculateAge(profileData?.tanggalLahir)} Tahun</p>
-					</div>
-				</div>
-
-				<div className="flex h-auto w-10/12 justify-between gap-4 pt-2">
-					<button
-						className="flex h-full w-full items-center justify-center rounded-lg border-2 border-[#D1DD25] bg-white p-2 font-bold text-[#D1DD25]"
-						onClick={() => (window.location.href = '/select-profile')}
+					<p
+						className="absolute text-xl font-bold text-[#FF7518]"
+						style={{
+							textShadow: '1px 1px 2px white, -1px -1px 2px white, 1px -1px 2px white, -1px 1px 2px white',
+						}}
 					>
-						<IconArrowLeft
-							size={24}
-							strokeWidth={2}
-						/>
-						Kembali
-					</button>
-					<button className="flex h-full w-full items-center justify-center rounded-lg border-2 border-[#D1DD25] bg-white p-2 font-bold text-[#D1DD25]">
-						<IconQuestionMark
-							size={24}
-							strokeWidth={2}
-						/>
-						Bantuan
-					</button>
-					<button className="flex h-full w-full items-center justify-center gap-1 rounded-lg border-2 border-[#D1DD25] bg-white p-2 text-sm font-bold text-[#D1DD25]">
-						<IconMessage
-							size={24}
-							strokeWidth={2}
-						/>
-						Feedback
-					</button>
+						{percentage}%
+					</p>
+				</div>
+
+				<div className="flex h-auto w-full flex-col items-center">
+					<div className="flex h-auto w-10/12 flex-col rounded-md bg-white p-3">
+						<div className="flex h-auto items-end gap-2 border-b-2 border-[#FF7518] pb-2">
+							<p
+								className="text-4xl font-bold text-[#FF7518]"
+								style={{
+									textShadow: '1px 1px 2px white, -1px -1px 2px white, 1px -1px 2px white, -1px 1px 2px white',
+								}}
+							>
+								{percentage}%
+							</p>
+							<p className="text-sm text-gray-500">Kebutuhan gizi harian anda terpenuhi</p>
+						</div>
+						<div>
+							<p className="font-bold">{profileData?.nama}</p>
+							<p>{calculateAge(profileData?.tanggalLahir)} Tahun</p>
+						</div>
+					</div>
+
+					<div className="flex h-auto w-10/12 justify-between gap-4 pt-2">
+						<button
+							className="flex h-full w-full items-center justify-center rounded-lg border-2 border-[#D1DD25] bg-white p-2 font-bold text-[#D1DD25]"
+							onClick={() => (window.location.href = '/select-profile')}
+						>
+							<IconArrowLeft
+								size={24}
+								strokeWidth={2}
+							/>
+							Kembali
+						</button>
+						<button className="flex h-full w-full items-center justify-center rounded-lg border-2 border-[#D1DD25] bg-white p-2 font-bold text-[#D1DD25]">
+							<IconQuestionMark
+								size={24}
+								strokeWidth={2}
+							/>
+							Bantuan
+						</button>
+						<button className="flex h-full w-full items-center justify-center gap-1 rounded-lg border-2 border-[#D1DD25] bg-white p-2 text-sm font-bold text-[#D1DD25]">
+							<IconMessage
+								size={24}
+								strokeWidth={2}
+							/>
+							Feedback
+						</button>
+					</div>
 				</div>
 			</div>
 		</motion.div>

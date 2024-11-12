@@ -22,6 +22,21 @@ export default function Create() {
 	});
 	const [is5Profiles, setIs5Profiles] = useState(false);
 
+	const calculateAge = (birthDate) => {
+		const birth = new Date(birthDate);
+		const today = new Date();
+
+		let age = today.getFullYear() - birth.getFullYear();
+
+		// Adjust age if birthday hasn't occurred this year
+		const monthDiff = today.getMonth() - birth.getMonth();
+		if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+			age--;
+		}
+
+		return age;
+	};
+
 	const handleSubmit = () => {
 		// Check if all fields are filled
 		if (!profileState.nama || !profileState.tanggalLahir || !profileState.tempatTinggal.provinsi || !profileState.nik || !profileState.jenisKelamin) {
@@ -30,7 +45,7 @@ export default function Create() {
 		}
 
 		// 1. Get "profiles" from localStorage
-		const profiles = JSON.parse(localStorage.getItem('profiles')) || [];
+		let profiles = JSON.parse(localStorage.getItem('profiles')) || [];
 
 		// Check if there are already 5 profile from profiles in localStorage
 		if (profiles.length >= 5) {
@@ -38,8 +53,10 @@ export default function Create() {
 			return;
 		}
 
+		const newState = { ...profileState, umur: calculateAge(profileState.tanggalLahir) };
+
 		// 2. Add new profile to "profiles"
-		profiles.push(profileState);
+		profiles.push(newState);
 
 		// 3. Save "profiles" to localStorage
 		localStorage.setItem('profiles', JSON.stringify(profiles));

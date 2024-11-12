@@ -55,6 +55,8 @@ export default function Result() {
 
 		setSelectedMakanan(dataMakanan[data.menu]);
 
+		sessionStorage.setItem('menuId', data.menu);
+
 		setIsLoading(false);
 
 		return data;

@@ -19,7 +19,7 @@ export default function Select() {
 				provinsi: 'Jawa Barat',
 				kota: 'jakarta',
 			},
-			umur: '13',
+			umur: 16,
 			nik: '271821309123',
 			jenisKelamin: 'L',
 		},
@@ -98,7 +98,7 @@ export default function Select() {
 										// Confirm delete
 										if (!confirm('Apakah Anda yakin ingin menghapus profil ini?')) return;
 
-										const newProfiles = profiles.filter((_, i) => i !== index);
+										const newProfiles = profiles.filter((_, i) => i !== index && i !== 0);
 										setProfiles(newProfiles);
 										localStorage.setItem('profiles', JSON.stringify(newProfiles));
 									}}
@@ -124,7 +124,7 @@ export default function Select() {
 									</div>
 									<div className="flex flex-col space-y-1 text-center">
 										<p className="text-sm font-semibold">{profile.nama}</p>
-										<p className="text-xs text-gray-400">{calculateAge(profile.tanggalLahir)} tahun</p>
+										<p className="text-xs text-gray-400">{profile.umur} tahun</p>
 									</div>
 								</div>
 							</div>
