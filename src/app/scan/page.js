@@ -9,6 +9,10 @@ import { useViewportHeight } from '@/hooks/useViewportHeight';
 import { useProfile } from '@/hooks/useProfile';
 import Loading from '@/components/loading';
 import { motion, AnimatePresence } from 'framer-motion';
+import { db, rtdb } from '@/utils/firebase/firebase';
+import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
+import { ref, set } from 'firebase/database';
+import ScanningAnimation from '@/components/Scanning';
 
 export default function Scan() {
 	const videoRef = useRef(null);
@@ -18,10 +22,22 @@ export default function Scan() {
 	const { vec, setVec } = useProfile();
 	const [isLoading, setIsLoading] = useState(false);
 	const isTall = useViewportHeight(888);
+	const [profileIndex, setProfileIndex] = useState(0);
+
+	useEffect(() => {
+		// This code runs only in the browser
+		const urlParams = new URLSearchParams(window.location.search);
+		const profile = urlParams.get('profile') || 0;
+		setProfileIndex(profile);
+
+		if (profile === null) {
+			window.location.href = '/select-profile';
+		}
+	}, []);
 
 	useEffect(() => {
 		navigator.mediaDevices
-			.getUserMedia({ video: true })
+			.getUserMedia({ video: { facingMode: 'user' } })
 			.then((stream) => {
 				if (videoRef.current) {
 					videoRef.current.srcObject = stream;
@@ -55,7 +71,13 @@ export default function Scan() {
 		}
 	};
 
+	const [isScanning, setIsScanning] = useState(false);
+
 	const handleScreenshot = async () => {
+		setIsScanning(true); // Start scanning animation
+	};
+
+	const handleScanComplete = async () => {
 		const canvas = canvasRef.current;
 		const video = videoRef.current;
 
@@ -80,16 +102,41 @@ export default function Scan() {
 			setIsLoading(true);
 			const uploadResult = await uploadToCloudinary(file);
 			if (uploadResult && uploadResult.secure_url) {
-				console.log(uploadResult);
 				setUploadedUrl(uploadResult.url);
-				console.log('Image uploaded successfully:', uploadResult.url);
-
 				await handleUploadImage(uploadResult.url);
-
-				window.location.href = '/questionnaire';
+				const id = await uploadToFirebase(uploadResult.url);
+				window.location.href = `/questionnaire?profile=${id}`;
 			}
 		} catch (error) {
 			console.error('Error uploading to Cloudinary:', error);
+		}
+	};
+
+	const uploadToFirebase = async (imgUrl) => {
+		try {
+			const profiles = JSON.parse(localStorage.getItem('profiles')) || [];
+
+			const profile = profiles[profileIndex];
+
+			console.log('Profile', profile);
+			const response = await addDoc(collection(db, 'profiles'), {
+				...profile,
+				image: imgUrl,
+				scanned: false,
+			});
+
+			console.log(response);
+			console.log('Document written with ID: ', response.id);
+
+			const responseId = response.id;
+
+			const responseRt = await set(ref(rtdb, `users/${responseId}`), {
+				scanned: false,
+			});
+
+			return responseId;
+		} catch (error) {
+			console.error('Error uploading to Firebase:', error);
 		}
 	};
 
@@ -117,20 +164,28 @@ export default function Scan() {
 				text={'Mengidentifikasi Kondisi Fisik mu...'}
 				isLoading={isLoading}
 			/>
+
+			{/* Video/Screenshot */}
 			{!screenshot ? (
 				<video
 					ref={videoRef}
 					autoPlay
 					muted
-					className={`${isTall ? 'rounded-t-3xl' : ''} absolute left-0 top-0 z-0 h-[86%] w-full transform object-cover`}
-					// md:scale-x-[-1]
+					playsInline
+					className={`${isTall ? 'rounded-t-3xl' : ''} absolute left-0 top-0 h-[86%] w-full scale-x-[-1] transform object-cover ${isScanning ? 'z-50' : 'z-0'}`}
 				></video>
 			) : (
 				<img
 					src={screenshot}
 					alt="Screenshot"
-					className={`${isTall ? 'rounded-t-3xl' : ''} absolute left-0 top-0 z-0 h-[86%] w-full object-cover`}
-					// md:scale-x-[-1]
+					className={`${isTall ? 'rounded-t-3xl' : ''} absolute left-0 top-0 h-[86%] w-full scale-x-[-1] transform object-cover ${isScanning ? 'z-50' : 'z-0'}`}
+				/>
+			)}
+
+			{!isLoading && (
+				<ScanningAnimation
+					isScanning={isScanning}
+					onComplete={handleScanComplete}
 				/>
 			)}
 
@@ -152,6 +207,7 @@ export default function Scan() {
 				<Link
 					href="/select-profile"
 					className="rounded-full bg-[#D1DD25] p-2"
+					onClick={() => window.history.back()}
 				>
 					<IconArrowLeft
 						size={24}

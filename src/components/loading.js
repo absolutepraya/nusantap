@@ -6,7 +6,7 @@ export default function Loading({ text, isLoading }) {
 	return (
 		isLoading && (
 			<motion.div
-				className={`absolute left-0 top-0 flex h-[888px] w-[450px] items-end justify-center bg-red-300 ${isLoading ? 'z-50' : 'z-0'}`}
+				className={`absolute left-0 top-0 flex h-[888px] w-[450px] items-end justify-center bg-red-300 ${isLoading ? 'z-[100]' : 'z-0'}`}
 				initial={{ opacity: 0 }}
 				animate={{ opacity: 1 }}
 				exit={{ opacity: 0 }}

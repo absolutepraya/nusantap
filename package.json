@@ -16,6 +16,7 @@
 		"openai": "^4.70.2",
 		"react": "19.0.0-rc-02c0e824-20241028",
 		"react-dom": "19.0.0-rc-02c0e824-20241028",
+		"react-qr-code": "^2.0.15",
 		"react-scrollable-feed": "^2.0.2"
 	},
 	"devDependencies": {

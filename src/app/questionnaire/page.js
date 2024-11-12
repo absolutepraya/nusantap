@@ -188,6 +188,18 @@ export default function Scan() {
 	const [currentQuestion, setCurrentQuestion] = useState();
 	const [currentAnswer, setCurrentAnswer] = useState(null);
 	const [isLoading, setIsLoading] = useState(true);
+	const [profileId, setProfileId] = useState(0);
+
+	useEffect(() => {
+		// This code runs only in the browser
+		const urlParams = new URLSearchParams(window.location.search);
+		const profile = urlParams.get('profile') || 0;
+		console.log('profile id: ' + profile);
+		if (profile === null) {
+			window.location.href = '/select-profile';
+		}
+		setProfileId(profile);
+	}, []);
 
 	useEffect(() => {
 		const vec = sessionStorage.getItem('vec');
@@ -238,7 +250,7 @@ export default function Scan() {
 		if (previousHistory.length >= 3) {
 			sessionStorage.setItem('vec', JSON.stringify(currentQuestion.vec));
 
-			window.location.href = '/result';
+			window.location.href = `/result?profile=${profileId}`;
 			return;
 		}
 
@@ -258,6 +270,7 @@ export default function Scan() {
 				<Link
 					href="/select-profile"
 					className="rounded-full bg-[#D1DD25] p-2"
+					onClick={() => window.history.back()}
 				>
 					<IconArrowLeft
 						size={24}

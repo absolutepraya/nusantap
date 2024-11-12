@@ -2,13 +2,16 @@
 'use client';
 import Link from 'next/link';
 import Image from 'next/image';
-import { IconArrowLeft, IconPlus, IconMessageQuestion, IconUserFilled, IconDotsVertical, IconDots, IconTrash, IconQuestionMark, IconToolsKitchen2, IconQrcode, IconCaretDownFilled, IconCaretUpFilled } from '@tabler/icons-react';
+import { IconArrowLeft, IconPlus, IconMessageQuestion, IconUserFilled, IconDotsVertical, IconDots, IconTrash, IconQuestionMark, IconToolsKitchen2, IconQrcode, IconCaretDownFilled, IconCaretUpFilled, IconBrandWhatsapp } from '@tabler/icons-react';
 import ScrollableFeed from 'react-scrollable-feed';
 import { useViewportHeight } from '@/hooks/useViewportHeight';
 import { useEffect, useRef, useState } from 'react';
 import dataMakanan from './data-makanan.json';
 import React from 'react';
 import Loading from '@/components/loading';
+import QRCode from 'react-qr-code';
+import { onValue, ref } from 'firebase/database';
+import { rtdb } from '@/utils/firebase/firebase';
 
 export default function Result() {
 	const isTall = useViewportHeight(888);
@@ -20,6 +23,19 @@ export default function Result() {
 	const [showEdukasi, setShowEdukasi] = useState(false);
 	const [showQR, setShowQR] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
+	const [nik, setNik] = useState('');
+	const [profileId, setProfileId] = useState(0);
+
+	useEffect(() => {
+		// This code runs only in the browser
+		const urlParams = new URLSearchParams(window.location.search);
+		const profile = urlParams.get('profile') || 0;
+
+		if (!profile) {
+			window.location.href = '/select-profile';
+		}
+		setProfileId(profile);
+	}, []);
 
 	const fetchVec = async (vec) => {
 		console.log('vec', vec);
@@ -48,9 +64,38 @@ export default function Result() {
 	useEffect(() => {
 		const vec = sessionStorage.getItem('vec');
 
+		const profiles = JSON.parse(localStorage.getItem('profiles')) || [];
+
+		const profile = profiles[profileId];
+
+		if (!profile) {
+			return;
+		}
+
+		setNik(profile.nik);
+
 		if (vec) {
 			fetchVec(vec);
 		}
+	}, [profileId]);
+
+	useEffect(() => {
+		const profileId = new URLSearchParams(window.location.search).get('profile');
+		const userRef = ref(rtdb, `users/${profileId}`);
+
+		console.log(profileId);
+		onValue(userRef, (snapshot) => {
+			const data = snapshot.val();
+			console.log('Snapshot data:', data);
+			if (data?.scanned) {
+				if (data.scanned) window.location.href = `/akg?profile=${profileId}`;
+			}
+		});
+
+		// Optional: Clean up listener on unmount
+		return () => {
+			off(userRef);
+		};
 	}, []);
 
 	useEffect(() => {
@@ -66,6 +111,12 @@ export default function Result() {
 			}
 		}, 100);
 	}, []);
+
+	const handleShareToWhatsApp = () => {
+		const message = `Hai, Sahabat NuSantap!\n\nKlaim makan siang gratis <nama> di tautan berikut ini:\nhttps://nusantap-dashboard.vercel.app/qr/nstp-${profileId}`;
+		const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;
+		window.open(url, '_blank');
+	};
 
 	return (
 		<div
@@ -87,6 +138,7 @@ export default function Result() {
 							<Link
 								href="/select-profile"
 								className="rounded-full bg-[#D1DD25] p-2"
+								onClick={() => window.history.back()}
 							>
 								<IconArrowLeft
 									size={24}
@@ -217,17 +269,32 @@ export default function Result() {
 										<p className="!mb-1 text-xs">Klik untuk menampilkan verifikasi scan makanan.</p>
 									</div>
 								</div>
-								<div className={`h-[36rem] w-full bg-white ${showQR ? '' : 'hidden'} relative flex items-center justify-center`}>
+								<div className={`h-[36rem] w-full bg-white ${showQR ? '' : 'hidden'} relative flex flex-col items-center justify-center gap-4`}>
 									<p className="absolute top-12 text-center text-xl font-semibold">
 										Tunjukkan QR ini pada staff
 										<br />
 										Makan Bergizi Gratis
 									</p>
-									<img
+									<QRCode
+										value={`nstp-${profileId}`}
+										size={256}
+									/>
+									{/* <img
 										src="/qr/qrdummy.png"
 										alt="QR Code"
 										className="h-60 w-60 object-contain"
-									/>
+									/> */}
+									<div
+										className="flex h-auto w-auto cursor-pointer items-center gap-4 rounded-full border-2 border-green-500 px-4 py-2 text-green-500"
+										onClick={handleShareToWhatsApp}
+									>
+										<IconBrandWhatsapp
+											size={24}
+											strokeWidth={2}
+										/>
+										<p>Share to Whatsapp</p>
+									</div>
+
 									<div className="absolute bottom-12 w-[80%] rounded-xl border border-gray-300 px-3 py-2">
 										<p className="text-xs">
 											<span className="font-bold text-red-500">Note: </span>Pastikan menu yang Anda terima sesuai dengan yang diberikan oleh aplikasi.

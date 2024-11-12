@@ -5,6 +5,7 @@ import { IconArrowLeft } from '@tabler/icons-react';
 import { useState, useEffect } from 'react';
 import { locationData } from './locationData';
 import { useViewportHeight } from '@/hooks/useViewportHeight';
+import { rtdb } from '@/utils/firebase/firebase';
 
 export default function Create() {
 	const [selectedProvinsi, setSelectedProvinsi] = useState('');
