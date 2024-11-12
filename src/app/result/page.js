@@ -74,9 +74,9 @@ export default function Result() {
 
 		setNik(profile.nik);
 
-		if (vec) {
-			fetchVec(vec);
-		}
+		// if (vec) {
+		fetchVec(vec || []);
+		// }
 	}, [profileId]);
 
 	useEffect(() => {
