@@ -23,7 +23,6 @@ export default function Result() {
 	const [showEdukasi, setShowEdukasi] = useState(false);
 	const [showQR, setShowQR] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
-	const [nik, setNik] = useState('');
 	const [profileId, setProfileId] = useState(0);
 
 	useEffect(() => {
@@ -63,16 +62,6 @@ export default function Result() {
 
 	useEffect(() => {
 		const vec = sessionStorage.getItem('vec');
-
-		const profiles = JSON.parse(localStorage.getItem('profiles')) || [];
-
-		const profile = profiles[profileId];
-
-		if (!profile) {
-			return;
-		}
-
-		setNik(profile.nik);
 
 		// if (vec) {
 		fetchVec(vec || []);

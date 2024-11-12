@@ -14,11 +14,12 @@ export default function Select() {
 	const [profiles, setProfiles] = useState([
 		{
 			nama: 'Anak 1',
-			tanggalLahir: '2008-02-72',
+			tanggalLahir: '2008-02-12',
 			tempatTinggal: {
 				provinsi: 'Jawa Barat',
 				kota: 'jakarta',
 			},
+			umur: '13',
 			nik: '271821309123',
 			jenisKelamin: 'L',
 		},
@@ -111,6 +112,7 @@ export default function Select() {
 									className="flex aspect-square w-full cursor-pointer flex-col items-center justify-center space-y-5 rounded-xl border-2 shadow-lg"
 									href={`/scan?profile=${index}`}
 									onClick={() => {
+										sessionStorage.setItem('selectedProfile', JSON.stringify(profiles[index]));
 										window.location.href = `/scan?profile=${index}`;
 									}}
 								>
