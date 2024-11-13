@@ -55,6 +55,10 @@ export default function Loading() {
 		setDoc(docRef, {
 			...selectedProfile,
 			akg: percentage,
+			scanned: true,
+			tanggal: new Date().toISOString(),
+			waktu: new Date().getTime(),
+			menu: menu.nama,
 		});
 	}, []);
 
@@ -164,7 +168,7 @@ export default function Loading() {
 
 	return (
 		<motion.div
-			className={`absolute left-0 top-0 h-screen max-h-[888px] w-[450px]`}
+			className={`absolute left-0 top-0 h-screen max-h-[888px] w-full max-w-[450px]`}
 			initial={{ opacity: 0 }}
 			animate={{ opacity: 1 }}
 			exit={{ opacity: 0 }}
@@ -228,8 +232,8 @@ export default function Loading() {
 					</p>
 				</div>
 
-				<div className="flex h-auto w-full flex-col items-center">
-					<div className="flex h-auto w-10/12 flex-col rounded-md bg-white p-3">
+				<div className="flex h-auto w-full flex-col items-center px-4">
+					<div className="flex h-auto w-full flex-col rounded-md bg-white p-3">
 						<div className="flex h-auto items-end gap-2 border-b-2 border-[#FF7518] pb-2">
 							<p
 								className="text-4xl font-bold text-[#FF7518]"
@@ -247,7 +251,7 @@ export default function Loading() {
 						</div>
 					</div>
 
-					<div className="flex h-auto w-10/12 justify-between gap-4 pt-2">
+					<div className="flex h-auto w-full justify-between gap-4 pt-2">
 						<button
 							className="flex h-full w-full items-center justify-center rounded-lg border-2 border-[#D1DD25] bg-white p-2 font-bold text-[#D1DD25]"
 							onClick={() => (window.location.href = '/select-profile')}

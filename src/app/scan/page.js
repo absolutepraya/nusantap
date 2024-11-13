@@ -2,7 +2,7 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { IconArrowLeft, IconBodyScan, IconBoltOff, IconQuestionMark } from '@tabler/icons-react';
+import { IconArrowLeft, IconBodyScan, IconBoltOff, IconQuestionMark, IconSwitchHorizontal } from '@tabler/icons-react';
 import nusantapLogo from '@/../public/images/nusantap-logo.png';
 import guide from '@/../public/images/guide.png';
 import { useViewportHeight } from '@/hooks/useViewportHeight';
@@ -23,6 +23,48 @@ export default function Scan() {
 	const [isLoading, setIsLoading] = useState(false);
 	const isTall = useViewportHeight(888);
 	const [profileIndex, setProfileIndex] = useState(0);
+	// Add state for tracking camera mode
+	const [facingMode, setFacingMode] = useState('user');
+
+	// Function to stop all video tracks
+	const stopVideoTracks = () => {
+		if (videoRef.current && videoRef.current.srcObject) {
+			videoRef.current.srcObject.getTracks().forEach((track) => track.stop());
+		}
+	};
+
+	// Function to initialize camera
+	const initializeCamera = async (mode) => {
+		try {
+			const stream = await navigator.mediaDevices.getUserMedia({
+				video: { facingMode: mode },
+			});
+
+			if (videoRef.current) {
+				videoRef.current.srcObject = stream;
+			}
+		} catch (err) {
+			console.error('Error accessing the camera: ', err);
+		}
+	};
+
+	// Function to handle camera switch
+	const handleCameraSwitch = async () => {
+		stopVideoTracks();
+		const newMode = facingMode === 'user' ? 'environment' : 'user';
+		setFacingMode(newMode);
+		await initializeCamera(newMode);
+	};
+
+	useEffect(() => {
+		// Initial camera setup
+		initializeCamera(facingMode);
+
+		// Cleanup function
+		return () => {
+			stopVideoTracks();
+		};
+	}, []);
 
 	useEffect(() => {
 		// This code runs only in the browser
@@ -35,18 +77,18 @@ export default function Scan() {
 		}
 	}, []);
 
-	useEffect(() => {
-		navigator.mediaDevices
-			.getUserMedia({ video: { facingMode: 'user' } })
-			.then((stream) => {
-				if (videoRef.current) {
-					videoRef.current.srcObject = stream;
-				}
-			})
-			.catch((err) => {
-				console.error('Error accessing the camera: ', err);
-			});
-	}, []);
+	// useEffect(() => {
+	// 	navigator.mediaDevices
+	// 		.getUserMedia({ video: { facingMode: 'user' } })
+	// 		.then((stream) => {
+	// 			if (videoRef.current) {
+	// 				videoRef.current.srcObject = stream;
+	// 			}
+	// 		})
+	// 		.catch((err) => {
+	// 			console.error('Error accessing the camera: ', err);
+	// 		});
+	// }, []);
 
 	const handleUploadImage = async (url) => {
 		try {
@@ -172,7 +214,7 @@ export default function Scan() {
 					autoPlay
 					muted
 					playsInline
-					className={`${isTall ? 'rounded-t-3xl' : ''} absolute left-0 top-0 h-[86%] w-full scale-x-[-1] transform object-cover ${isScanning ? 'z-50' : 'z-0'}`}
+					className={`${isTall ? 'rounded-t-3xl' : ''} absolute left-0 top-0 h-[86%] w-full ${facingMode === 'user' ? 'scale-x-[-1]' : null} transform object-cover ${isScanning ? 'z-50' : 'z-0'}`}
 				></video>
 			) : (
 				<img
@@ -216,8 +258,11 @@ export default function Scan() {
 				</Link>
 
 				<div className="flex h-full w-auto items-center gap-4 text-sm">
-					<div className="cursor-not-allowed rounded-full bg-[#D1DD25] p-2">
-						<IconBoltOff
+					<div
+						className="cursor-not-allowed rounded-full bg-[#D1DD25] p-2"
+						onClick={handleCameraSwitch}
+					>
+						<IconSwitchHorizontal
 							size={24}
 							strokeWidth={3}
 						/>
