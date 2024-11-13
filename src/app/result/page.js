@@ -22,7 +22,7 @@ export default function Result() {
 	const [showEdukasi, setShowEdukasi] = useState(false);
 	const [showQR, setShowQR] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
-	const [profileId, setProfileId] = useState(0);
+	const [profileId, setProfileId] = useState(null);
 
 	useEffect(() => {
 		// This code runs only in the browser
@@ -103,7 +103,7 @@ export default function Result() {
 	}, []);
 
 	const handleShareToWhatsApp = () => {
-		const message = `Hai, Sahabat NuSantap!\n\nKlaim makan siang gratis <nama> di tautan berikut ini:\nhttps://nusantap-dashboard.vercel.app/qr/nstp-${profileId}`;
+		const message = `Hai, Sahabat NuSantap!\n\nKlaim makan siang gratis di tautan berikut ini:\nhttps://nusantap-dashboard.vercel.app/qr/nstp-${profileId}`;
 		const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;
 		window.open(url, '_blank');
 	};

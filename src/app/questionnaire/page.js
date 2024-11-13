@@ -183,9 +183,10 @@ const CustomInput = ({ isLoading, onSubmit }) => {
 
 export default function Scan() {
 	const isTall = useViewportHeight(888);
-	const [history, setHistory] = useState(null);
+	const [history, setHistory] = useState([]);
 	const [vec, setVec] = useState();
-	const [currentQuestion, setCurrentQuestion] = useState();
+	const [questions, setQuestions] = useState([]);
+	const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 	const [currentAnswer, setCurrentAnswer] = useState(null);
 	const [isLoading, setIsLoading] = useState(true);
 	const [profileId, setProfileId] = useState(0);
@@ -228,7 +229,8 @@ export default function Scan() {
 			});
 
 			const data = await response.json();
-			setCurrentQuestion(data);
+			console.log('data', data);
+			setQuestions((prevQuestions) => [...prevQuestions, ...data.questions]);
 		} catch (error) {
 			console.error('Error fetching question:', error);
 		} finally {
@@ -238,27 +240,54 @@ export default function Scan() {
 
 	const setAnswer = async (answer) => {
 		setCurrentAnswer(answer);
-		const currentHistory = {
+
+		// Store the current question and answer in history
+		const currentQuestion = questions[currentQuestionIndex];
+		const newHistoryEntry = {
 			question: currentQuestion.question,
 			answer: answer,
+			vec: currentQuestion.vec,
 		};
 
-		const previousHistory = history || [];
-		previousHistory.push(currentHistory);
-		setHistory(previousHistory);
+		setHistory((prevHistory) => [...prevHistory, newHistoryEntry]);
 
-		if (previousHistory.length >= 3) {
-			sessionStorage.setItem('vec', JSON.stringify(currentQuestion.vec));
-
+		// Check if we've reached the question limit
+		if (currentQuestionIndex >= 2) {
+			// Store the final vector and redirect
+			const lastVec = currentQuestion.vec;
+			sessionStorage.setItem('vec', JSON.stringify(lastVec));
 			window.location.href = `/result?profile=${profileId}`;
 			return;
 		}
 
-		fetchQuestion();
+		// Increment the question index
+		setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+
+		// Fetch next question if we're at the end of our current questions array
+		if (currentQuestionIndex === questions.length - 1) {
+			await fetchQuestion();
+		}
 	};
 
 	const handleCustomInput = (inputText) => {
 		setAnswer(inputText);
+	};
+
+	// Get the current question based on the index
+	const currentQuestion = questions[currentQuestionIndex];
+
+	// Calculate progress width class based on question index
+	const getProgressWidth = () => {
+		switch (currentQuestionIndex) {
+			case 0:
+				return '50%'; // w-1/2
+			case 1:
+				return '58%'; // Between w-1/2 and w-2/3
+			case 2:
+				return '66.67%'; // w-2/3
+			default:
+				return '50%';
+		}
 	};
 
 	return (
@@ -302,11 +331,16 @@ export default function Scan() {
 				</div>
 
 				<div className="mt-8 h-1 w-full bg-gray-500/30">
-					<div className="absolute left-0 h-1 w-2/3 bg-[#FF7518]">
+					<motion.div
+						className="absolute left-0 h-1 bg-[#FF7518]"
+						initial={{ width: '50%' }}
+						animate={{ width: getProgressWidth() }}
+						transition={{ duration: 0.5, ease: 'easeInOut' }}
+					>
 						<div className="relative h-full w-full">
-							<div className="absolute left-[95%] top-[-6px] h-4 w-4 rounded-full bg-[#FF7518]"></div>
+							<div className="absolute left-[95%] top-[-6px] h-4 w-4 rounded-full bg-[#FF7518]" />
 						</div>
-					</div>
+					</motion.div>
 				</div>
 			</div>
 

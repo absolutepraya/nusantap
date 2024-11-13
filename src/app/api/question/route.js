@@ -19,16 +19,31 @@ export async function POST(request) {
 				{
 					role: 'system',
 					content: `${JSON.stringify(previousVec)}
-								You must respond with a JSON object that follows this exact schema:
-								{
-									"question": "string containing the multiple choice question",
-									"option1": "string containing the first option",
-									"option2": "string containing the second option",
-									"option3": "string containing the third option",
-									"vec": [array of floating point numbers]
-								}
-								
-								Ensure all fields are present and properly formatted.
+                                You must respond with a JSON object that follows this exact schema:
+                                {
+                                    "questions": [
+                                        {
+                                        "question": "Pertanyaan 1",
+                                        "option1": "Opsi 1",
+                                        "option2": "Opsi 2",
+                                        "option3": "Opsi 3"
+                                        },
+                                        {
+                                        "question": "Pertanyaan 2",
+                                        "option1": "Opsi 1",
+                                        "option2": "Opsi 2",
+                                        "option3": "Opsi 3"
+                                        },
+                                        {
+                                        "question": "Pertanyaan 3",
+                                        "option1": "Opsi 1",
+                                        "option2": "Opsi 2",
+                                        "option3": "Opsi 3"
+                                        }
+                                    ],
+                                    "vec": [array of 14 floating point numbers]
+                                }
+								Ensure all fields are present and properly formatted. Make sure all the options have maximum 5 words.
 								${Q_PROMPT}`,
 				},
 				{
